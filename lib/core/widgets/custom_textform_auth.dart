@@ -4,13 +4,19 @@ class CustomTextFormAuth extends StatefulWidget {
   final String hintText;
   final String labeltext;
   final IconData? iconData;
-  // final TextEditingController mycontroller;
-  const CustomTextFormAuth(
+  final TextEditingController mycontroller;
+  TextInputType textInputType;
+  bool pass;
+  bool ispassword ;
+  CustomTextFormAuth(
       {super.key,
       required this.hintText,
       required this.labeltext,
       required this.iconData,
-      // required this.mycontroller
+      required this.mycontroller,
+      required this.textInputType,
+      required this.pass,
+      required this.ispassword,
       });
 
   @override
@@ -31,10 +37,18 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
     return Container(
       margin: EdgeInsets.only( bottom: MediaQuery.of(context).size.height * 0.05,),
       child: TextFormField(
-        // controller: mycontroller,
+        controller: widget.mycontroller,
         style: TextStyle(
           fontSize: w*0.05,
         ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'الحقل مطلوب';
+          }
+          return null;
+        },
+        keyboardType: widget.textInputType,
+        obscureText: widget.pass ? widget.ispassword : false,
         decoration: InputDecoration(
           hintText:widget.hintText,
           hintStyle:  TextStyle(fontSize:  w*0.035,),
@@ -51,6 +65,18 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
             borderSide:const BorderSide( color:Color(0xffbdb9b9)),
             borderRadius: BorderRadius.circular(30),
           ),
+            suffixIcon: widget.pass
+                ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget.ispassword = !widget.ispassword;
+                  });
+                },
+                icon: Icon(
+                  widget.ispassword ? Icons.visibility_off : Icons.visibility,
+                  size: MediaQuery.of(context).size.height * 0.02,
+                ))
+                : null
         ),
       ),
     );

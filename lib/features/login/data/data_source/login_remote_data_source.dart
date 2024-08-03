@@ -15,7 +15,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
   @override
   Future<Login> fetchLoginData(Map<String, dynamic> data2) async {
-    var data = await apiService.post(data1: data2, endPoint: 'auth/login/');
+    var data = await apiService.post(data1: data2, endPoint: 'lecturer/login');
     debugPrint("WEAREHERE12121212121222");
     debugPrint(data.toString());
     Login nums = getLogin(data);
@@ -31,7 +31,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
   Login getLogin(Map<String, dynamic> data) {
     debugPrint("123456789");
-    Login nums = Login.fromJson(data['data']);
+    Login nums = Login.fromJson(data);
     debugPrint("HRHRRTTTTTTTT");
     debugPrint(nums.toString());
     return nums;

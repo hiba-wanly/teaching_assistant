@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teachers_marks/constants.dart';
-import 'package:teachers_marks/features/details_of_lectuer/presentations/views/details_of_lectuer.dart';
+import 'package:teachers_marks/features/home/presentations/views/details_of_lectuer.dart';
 import 'package:teachers_marks/features/home/presentations/views/widgets/grid_layout_widget.dart';
 import 'package:teachers_marks/features/home/presentations/views/widgets/lectuer_card.dart';
 
