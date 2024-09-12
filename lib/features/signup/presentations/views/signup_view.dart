@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:teachers_marks/constants.dart';
+import 'package:teachers_marks/core/widgets/button_loading.dart';
 import 'package:teachers_marks/core/widgets/custom_button_auth.dart';
 import 'package:teachers_marks/core/widgets/custom_textform_auth.dart';
 import 'package:teachers_marks/features/home/presentations/views/home_view.dart';
@@ -110,24 +111,25 @@ class _SignupViewState extends State<SignupView> {
                     }
                   }, builder: (context, state) {
                 if (state is SignupLoading) {
-                  return Container(
-                    width: double.infinity,
-                    height: h * 0.06,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        gradient: const LinearGradient(
-                          colors: [Colors.lightBlueAccent, Colors.deepPurple],
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.topRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.repeated,
-                        )),
-
-                    child: const Align(
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator()
-                    ),
-                  );
+                  return  ButtonLoading();
+                  //   Container(
+                  //   width: double.infinity,
+                  //   height: h * 0.06,
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(5),
+                  //       gradient: const LinearGradient(
+                  //         colors: [Colors.lightBlueAccent, Colors.deepPurple],
+                  //         begin: Alignment.bottomLeft,
+                  //         end: Alignment.topRight,
+                  //         stops: [0.2, 0.8],
+                  //         tileMode: TileMode.repeated,
+                  //       )),
+                  //
+                  //   child: const Align(
+                  //       alignment: Alignment.center,
+                  //       child: CircularProgressIndicator()
+                  //   ),
+                  // );
                 }
                 else {
                   return CustomButtonAuth(

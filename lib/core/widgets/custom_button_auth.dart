@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 class CustomButtonAuth extends StatefulWidget {
   final String text;
   final void Function()? onPressed;
@@ -21,11 +23,25 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
 
     return Container(
       margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [kButtonColorBlue1, kButtonColorBlue2],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          stops: [0.1, 0.6],
+          tileMode: TileMode.repeated,
+        ),
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(
+          color: Colors.white,
+          width: 2.0,
+        ),
+      ),
       child: MaterialButton(
         onPressed: widget.onPressed,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding:  EdgeInsets.symmetric(vertical: h*0.02),
-        color: const Color(0x24F10808),
+        // color: const Color(0x24F10808),
         textColor: Colors.white,
         child: Text(widget.text),
       ),

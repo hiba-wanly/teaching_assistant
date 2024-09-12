@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 class CustomTextFormAuth extends StatefulWidget {
   final String hintText;
   final String labeltext;
@@ -37,6 +39,7 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
     return Container(
       margin: EdgeInsets.only( bottom: MediaQuery.of(context).size.height * 0.05,),
       child: TextFormField(
+
         controller: widget.mycontroller,
         style: TextStyle(
           fontSize: w*0.05,
@@ -59,12 +62,20 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
               child:  Text(
                widget.labeltext,
                 style: TextStyle(fontSize:  w*0.05),
-              )),
+              )
+          ),
           prefixIcon:  Icon(widget.iconData),
           border: OutlineInputBorder(
-            borderSide:const BorderSide( color:Color(0xffbdb9b9)),
+            borderSide:const BorderSide( color:kButtonColorBlue2),
             borderRadius: BorderRadius.circular(30),
           ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: const BorderSide(
+                color: kButtonColorBlue2, // Change the color here
+                width: 2.0,
+              ),
+            ),
             suffixIcon: widget.pass
                 ? IconButton(
                 onPressed: () {
