@@ -52,6 +52,7 @@ dependencies:
   hive:
   hive_flutter:
   get:
+  adoptive_calendar:
 
 dev_dependencies:
   flutter_test:

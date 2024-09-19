@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
             }),
       ],
         child: GetMaterialApp(
+
         debugShowCheckedModeBanner: false,
           // initialRoute: '/',
           // routes: {

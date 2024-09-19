@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 class ApiService {
   final Dio _dio;
-  final baseUrl = 'http://192.168.43.59:8000/';
+  final baseUrl = 'http://172.21.16.1:8000/';
   ApiService(this._dio);
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(

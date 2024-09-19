@@ -9,6 +9,7 @@ import 'package:teachers_marks/core/widgets/custom_textform_auth.dart';
 import 'package:teachers_marks/features/home/presentations/views/home_view.dart';
 import 'package:teachers_marks/features/login/presentations/manager/login_cubit/login_cubit.dart';
 import 'package:teachers_marks/features/login/presentations/manager/login_cubit/login_state.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -17,9 +18,10 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  double h =1;
+  // bool _isHovering = false;
+  double h = 1;
   bool ispassword = true;
-  double w=1 ;
+  double w = 1;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
@@ -27,12 +29,8 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     h = MediaQuery.of(context).size.height;
     w = MediaQuery.of(context).size.width;
-
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -50,11 +48,9 @@ class _LoginViewState extends State<LoginView> {
           elevation: 0.0,
         ),
         body: Form(
-
           key: formkey,
           child: Container(
-            padding:  EdgeInsets
-                .only(
+            padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.02,
                 bottom: MediaQuery.of(context).size.height * 0.02,
                 left: MediaQuery.of(context).size.width * 0.05,
@@ -65,87 +61,110 @@ class _LoginViewState extends State<LoginView> {
             // ),
             child: Center(
               child: ListView(
-                children:  [
-                  SizedBox(height:h*0.05),
-                    CustomTextFormAuth(
+                children: [
+                  SizedBox(height: h * 0.05),
+                  CustomTextFormAuth(
                     hintText: 'أدخل بريدك الالكتروني',
                     labeltext: 'البريد الالكتروني',
                     iconData: Icons.email_outlined,
                     mycontroller: emailController,
-                      textInputType: TextInputType.emailAddress,
-                      pass: false,
-                      ispassword: ispassword,
+                    textInputType: TextInputType.emailAddress,
+                    pass: false,
+                    ispassword: ispassword,
                   ),
-
-                    CustomTextFormAuth(
+                  CustomTextFormAuth(
                     hintText: "أدخل كلمة المرور",
                     labeltext: "كلمة المرور",
                     iconData: Icons.lock_outline,
                     mycontroller: passwordcontroller,
-                      textInputType: TextInputType.visiblePassword,
-                      pass: true,
-                      ispassword: ispassword,
+                    textInputType: TextInputType.visiblePassword,
+                    pass: true,
+                    ispassword: ispassword,
                   ),
-                  BlocConsumer<LoginCubit, LoginState>(
-                      listener: (context, state) {
-                        if (state is LoginSuccess) {
-                          Get.to(HomeView());
-                        }
-                        if(state is LoginFailure){
-                          debugPrint("kkkLoginFailure");
-                          Flushbar(
-                            duration: const Duration(seconds: 3),
-                            backgroundColor: Colors.white,
-                            messageColor: Colors.black,
-                            messageSize: h * 0.02,
-                            message: "لا يمكن اتمام العملية الأن",
-                          ).show(context);
-                          // Navigator.pop(context);
-                        }
-                      }, builder: (context, state) {
-                    if (state is LoginLoading) {
-                      return ButtonLoading();
-                      //   Container(
-                      //   width: double.infinity,
-                      //   height: h * 0.06,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(5),
-                      //       gradient: const LinearGradient(
-                      //         colors: [kButtonColorBlue1, kButtonColorBlue2],
-                      //         begin: Alignment.bottomLeft,
-                      //         end: Alignment.topRight,
-                      //         stops: [0.2, 0.8],
-                      //         tileMode: TileMode.repeated,
-                      //       )),
-                      //
-                      //   child: const Align(
-                      //       alignment: Alignment.center,
-                      //       child: CircularProgressIndicator()
-                      //   ),
-                      // );
-                    }
-                    else {
-                      return CustomButtonAuth(
-                          text: 'تسجيل دخول',
-                        onPressed: () {
-                          if (formkey.currentState!.validate()) {
-                            BlocProvider.of<LoginCubit>(context).fetchLoginData(
-                                {
-                                  'email':emailController.text,
-                                  'password':passwordcontroller.text
-                                });
-                          }
-                        },
+                  InkWell(
+                    onTap: () {},
+                    child: Text(
+                      "هل نسيت كلمة المرور؟",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
 
-                      );
-                    }
-                  }
-                  ),
+                  // BlocConsumer<LoginCubit, LoginState>(
+                  //     listener: (context, state) {
+                  //   if (state is LoginSuccess) {
+                  //     Get.to(HomeView());
+                  //   }
+                  //   if (state is LoginFailure) {
+                  //     debugPrint("kkkLoginFailure");
+                  //     Flushbar(
+                  //       duration: const Duration(seconds: 3),
+                  //       backgroundColor: Colors.white,
+                  //       messageColor: Colors.black,
+                  //       messageSize: h * 0.02,
+                  //       message: "لا يمكن اتمام العملية الأن",
+                  //     ).show(context);
+                  //     // Navigator.pop(context);
+                  //   }
+                  // }, builder: (context, state) {
+                  //   if (state is LoginLoading) {
+                  //     return ButtonLoading();
+                  //     //   Container(
+                  //     //   width: double.infinity,
+                  //     //   height: h * 0.06,
+                  //     //   decoration: BoxDecoration(
+                  //     //       borderRadius: BorderRadius.circular(5),
+                  //     //       gradient: const LinearGradient(
+                  //     //         colors: [kButtonColorBlue1, kButtonColorBlue2],
+                  //     //         begin: Alignment.bottomLeft,
+                  //     //         end: Alignment.topRight,
+                  //     //         stops: [0.2, 0.8],
+                  //     //         tileMode: TileMode.repeated,
+                  //     //       )),
+                  //     //
+                  //     //   child: const Align(
+                  //     //       alignment: Alignment.center,
+                  //     //       child: CircularProgressIndicator()
+                  //     //   ),
+                  //     // );
+                  //   } else {
+                  //     return
+                  //
+                  //
+                  //
+                  //       CustomButtonAuth(
+                  //       text: 'تسجيل دخول',
+                  //       onPressed: () {
+                  //
+                  //
+                  //
+                  //         if (formkey.currentState!.validate()) {
+                  //           BlocProvider.of<LoginCubit>(context)
+                  //               .fetchLoginData({
+                  //             'email': emailController.text,
+                  //             'password': passwordcontroller.text
+                  //
+                  //
+                  //
+                  //
+                  //               });
+                  //         }
+                  //       },
+                  //     );
+                  //   }
+                  // }),
+              CustomButtonAuth(
+                      text: 'تسجيل دخول',
+                      onPressed: () {
+                      Get.offAll(HomeView());
+                      })
+
+
                 ],
               ),
             ),
           ),
         ),
       ),
-    ); }
+    );
+  }
 }

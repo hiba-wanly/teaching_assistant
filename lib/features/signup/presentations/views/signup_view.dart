@@ -96,7 +96,7 @@ class _SignupViewState extends State<SignupView> {
               BlocConsumer<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state is SignupSuccess) {
-                      Get.to(HomeView());
+                      Get.offAll(HomeView());
                     }
                     if(state is SignupFailure){
                       debugPrint("kkkLoginFailure");
