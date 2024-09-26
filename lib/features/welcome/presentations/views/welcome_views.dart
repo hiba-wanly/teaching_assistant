@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teachers_marks/features/login/presentations/views/login_view.dart';
-import 'package:teachers_marks/features/signup/presentations/views/signup_view.dart';
+import 'package:teachers_marks/features/login/presentations/views/signup_view.dart';
 
 import 'widgets/custom_button_welcome.dart';
 import 'widgets/logo_auth.dart';

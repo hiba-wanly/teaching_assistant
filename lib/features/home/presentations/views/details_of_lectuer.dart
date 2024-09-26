@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:teachers_marks/constants.dart';
 import 'package:teachers_marks/core/widgets/custom_appbar.dart';
+import 'package:teachers_marks/features/add_subject/data/models/subject_model.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/attendance_view.dart';
+import 'package:teachers_marks/features/lecturer/presentations/views/lecturer_subject.dart';
 
 class LectuerDetails extends StatefulWidget {
-  const LectuerDetails({super.key});
+  Subject subject;
+  LectuerDetails({super.key, required this.subject});
 
   @override
   State<LectuerDetails> createState() => _LectuerDetailsState();
@@ -13,13 +16,25 @@ class LectuerDetails extends StatefulWidget {
 class _LectuerDetailsState extends State<LectuerDetails> {
   double h = 1;
   double w = 1;
-  final List<Map<String, dynamic>> items = [
-    {'name': 'الحضور', 'screen': AttendanceView()},
-    // {'name': 'Item 2', 'screen': Screen2()},
-    // {'name': 'Item 3', 'screen': Screen3()},
-    // {'name': 'Item 4', 'screen': Screen4()},
-    // {'name': 'Item 5', 'screen': Screen5()},
-  ];
+ late final List<Map<String, dynamic>> items ;
+  // = [
+  //   {'name': 'المحاضرين المشاركين', 'screen': LecturerSubject(subject: widget.subject)},
+  //   {'name': 'الحضور', 'screen': AttendanceView()},
+  //   // {'name': 'Item 2', 'screen': Screen2()},
+  //   // {'name': 'Item 3', 'screen': Screen3()},
+  //   // {'name': 'Item 4', 'screen': Screen4()},
+  //   // {'name': 'Item 5', 'screen': Screen5()},
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize items in initState
+    items = [
+      {'name': 'المحاضرين المشاركين', 'screen': LecturerSubject(subject: widget.subject)},
+      {'name': 'الحضور', 'screen': AttendanceView(subject: widget.subject)},
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     h = MediaQuery.of(context).size.height;
@@ -28,7 +43,7 @@ class _LectuerDetailsState extends State<LectuerDetails> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: CustomAppBar(text: "طرائق", h: h,),
+          appBar: CustomAppBar(text: widget.subject.subject_name, h: h,),
           // AppBar(
           //   title: Text("طرائق"),
           //   flexibleSpace: Container(
@@ -81,7 +96,8 @@ class _LectuerDetailsState extends State<LectuerDetails> {
                   ],
                 ),
                   child: Center(child: Text(items[index]['name'],
-                    style: TextStyle(fontSize: 18),)),
+                    style: TextStyle(fontSize: 18,
+                      fontFamily: Almarai,),)),
                 ),
               );
             },

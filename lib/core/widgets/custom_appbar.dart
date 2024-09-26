@@ -22,7 +22,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
       preferredSize: Size.fromHeight(widget.h*0.065),
       child: AppBar(
-        title: Text(widget.text),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), // Back arrow icon
+          onPressed: () {
+            Navigator.of(context).pop(); // Pop the current route
+          },
+        ),
+        title: Text(widget.text,textAlign:TextAlign.center),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

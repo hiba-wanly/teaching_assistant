@@ -22,6 +22,7 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
     w = MediaQuery.of(context).size.width;
 
     return Container(
+      // width: double.infinity,
       margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -43,7 +44,10 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
         padding:  EdgeInsets.symmetric(vertical: h*0.02),
         // color: const Color(0x24F10808),
         textColor: Colors.white,
-        child: Text(widget.text),
+        child: Text(widget.text ,
+          style: TextStyle(
+              fontFamily: Almarai),
+          ),
       ),
     );
   }

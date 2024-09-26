@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:teachers_marks/features/attendance/presentations/views/date_detail_view.dart';
-import 'package:intl/intl.dart'; // Import intl package
+import 'package:teachers_marks/constants.dart';
+import 'package:teachers_marks/features/attendance/data/models/attendance_model.dart';
+import 'package:intl/intl.dart';
+import 'package:teachers_marks/features/attendance_log/presentations/views/date_detail_view.dart'; // Import intl package
 
 class PracticalView extends StatefulWidget {
-  final List<DateTime> selectedDates;
-  PracticalView({required this.selectedDates});
+  List<Attendance> listLab;
+  int subjectId;
+  PracticalView({required this.subjectId ,required this.listLab});
   @override
   State<PracticalView> createState() => _PracticalViewState();
 }
@@ -18,26 +21,27 @@ class _PracticalViewState extends State<PracticalView> {
     w = MediaQuery.of(context).size.width;
     return Expanded(
       child: ListView.builder(
-        itemCount: widget.selectedDates.length,
+        itemCount: widget.listLab.length,
         itemBuilder: (context, index) {
           // Format the date
-          String formattedDate =
-              DateFormat('E d/M/y').format(widget.selectedDates[index]);
+          // String formattedDate =
+          //     DateFormat('E d/M/y').format(DateTime.parse(widget.listLab[index].date));
           return Card(
             elevation: 3,
             color: Colors.white,
             child: ListTile(
               title: Text(
                 textAlign: TextAlign.center,
-                formattedDate, // Display the formatted date
-                style: const TextStyle(fontSize: 18),
+                widget.listLab[index].date + widget.listLab[index].day, // Display the formatted date
+                style:  TextStyle(fontSize: 18,
+                  fontFamily: Almarai,),
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        DateDetailView(date: widget.selectedDates[index]),
+                        DateDetailView(attId: widget.listLab[index].id, subjectId: widget.subjectId),
                   ),
                 );
               },

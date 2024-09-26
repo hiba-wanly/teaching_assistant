@@ -26,7 +26,7 @@ class LoginRepoImpl extends LoginRepo {
     } catch (e) {
       if (e is DioError) {
         debugPrint("ERORRORORO11111111111");
-        return left(ServerFailure("cannot login "));
+        return left(ServerFailure.fromDioError(e));
       }
       debugPrint("ERORROROR22222222222");
       debugPrint(e.toString());
@@ -35,11 +35,11 @@ class LoginRepoImpl extends LoginRepo {
   }
 
   @override
-  Future<Either<ServerFailure, Login>> logoutUser(dynamic id) async {
+  Future<Either<ServerFailure, Login>> logoutUser() async {
     try {
       debugPrint("ADDMATERIALLLLLLL");
       Login nums;
-      nums = await loginRemoteDataSource.logoutUser(id);
+      nums = await loginRemoteDataSource.logoutUser();
       return right(nums);
     } catch (e) {
       if (e is DioError) {
@@ -48,4 +48,41 @@ class LoginRepoImpl extends LoginRepo {
       return left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<ServerFailure, Login>> fetchSignupData(
+      Map<String, dynamic> data2) async {
+    try {
+      debugPrint("KKKHEREERER");
+      Login nums;
+      nums = await loginRemoteDataSource.fetchSignupData(data2);
+      debugPrint("AAAAAAAA");
+      debugPrint(nums.toString());
+      return right(nums);
+    } catch (e) {
+      if (e is DioError) {
+        debugPrint("ERORRORORO11111111111");
+        return left(ServerFailure.fromDioError(e));
+      }
+      debugPrint("ERORROROR22222222222");
+      debugPrint(e.toString());
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  // @override
+  // Future<Either<ServerFailure, SignUp>> logoutUser(dynamic id) async {
+  //   try {
+  //     debugPrint("ADDMATERIALLLLLLL");
+  //     SignUp nums;
+  //     nums = await signupRemoteDataSource.logoutUser(id);
+  //     return right(nums);
+  //   } catch (e) {
+  //     if (e is DioError) {
+  //       return left(ServerFailure.fromDioError(e));
+  //     }
+  //     return left(ServerFailure(e.toString()));
+  //   }
+  // }
+
 }

@@ -43,6 +43,7 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
         controller: widget.mycontroller,
         style: TextStyle(
           fontSize: w*0.05,
+            fontFamily: Almarai
         ),
         validator: (value) {
           if (value!.isEmpty) {
@@ -54,7 +55,8 @@ class _CustomTextFormAuthState extends State<CustomTextFormAuth> {
         obscureText: widget.pass ? widget.ispassword : false,
         decoration: InputDecoration(
           hintText:widget.hintText,
-          hintStyle:  TextStyle(fontSize:  w*0.035,),
+          hintStyle:  TextStyle(fontSize:  w*0.035,
+              fontFamily: Almarai),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:  EdgeInsets.symmetric(vertical: h*0.03, horizontal: w*0.03),
           label: Container(

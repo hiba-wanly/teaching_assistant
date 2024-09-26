@@ -1,14 +1,25 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:teachers_marks/constants.dart';
 import 'package:adoptive_calendar/adoptive_calendar.dart';
 import 'package:teachers_marks/core/widgets/custom_appbar.dart';
-import 'package:teachers_marks/features/attendance/presentations/views/date_detail_view.dart';
+import 'package:teachers_marks/core/widgets/drop_down_widget.dart';
+import 'package:teachers_marks/core/widgets/loading_page.dart';
+import 'package:teachers_marks/features/add_subject/data/models/subject_model.dart';
+import 'package:teachers_marks/features/attendance/data/models/attendance_model.dart';
+import 'package:teachers_marks/features/attendance/presentations/manager/attendance_cubit/attendance_cubit.dart';
+import 'package:teachers_marks/features/attendance/presentations/manager/attendance_cubit/attendance_state.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/practical_view.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/theoretical_view.dart';
 import 'package:intl/intl.dart' as intl;
 
 class AttendanceView extends StatefulWidget {
+  Subject subject;
+  AttendanceView({super.key, required this.subject});
+
   @override
   _AttendanceViewState createState() => _AttendanceViewState();
 }
@@ -21,7 +32,14 @@ class _AttendanceViewState extends State<AttendanceView> {
   bool isPractical = true;
   List<DateTime> practicalDates = [];
   List<DateTime> theoreticalDates = [];
-  String formattedDate='';
+  String formattedDate = '';
+
+  List<Attendance> _attendance = [];
+  List<Attendance> _attendanceLab = [];
+  List<Attendance> _attendanceTheory = [];
+
+  List<String> _optionType = [
+    "lab", "theory",];
 
   void togglePart() {
     setState(() {
@@ -29,6 +47,9 @@ class _AttendanceViewState extends State<AttendanceView> {
     });
   }
 
+  String? day ;
+  String? date ;
+  String? selecttype ;
 
   void _presentDatePicker() {
     showDatePicker(
@@ -42,7 +63,9 @@ class _AttendanceViewState extends State<AttendanceView> {
       }
       setState(() {
         _selectedDate = pickedDate;
-         formattedDate = intl.DateFormat('EEE, M/d/y').format(pickedDate);
+        day = intl.DateFormat('EEEE').format(pickedDate);
+        date = intl.DateFormat('M/d/y').format(pickedDate);
+        formattedDate = intl.DateFormat('EEE, M/d/y').format(pickedDate);
         if (isPractical) {
           practicalDates.add(pickedDate);
         } else {
@@ -50,9 +73,23 @@ class _AttendanceViewState extends State<AttendanceView> {
         }
         // Display the formatted date
         print(formattedDate);
-        });
       });
+    });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<AttendanceCubit>(context).getAttendance(widget.subject.id);
+    // _optionType = [
+    //    "lab"
+    //     ,
+    //   "theory"
+    //     ,
+    // ];
+  }
+
   @override
   Widget build(BuildContext context) {
     h = MediaQuery.of(context).size.height;
@@ -60,8 +97,10 @@ class _AttendanceViewState extends State<AttendanceView> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: CustomAppBar(text:  isPractical ? 'عملي' : 'نظري', h: h,),
-
+        appBar: CustomAppBar(
+          text: isPractical ? 'عملي' : 'نظري',
+          h: h,
+        ),
         body: Column(
           children: <Widget>[
             Container(
@@ -99,7 +138,10 @@ class _AttendanceViewState extends State<AttendanceView> {
                             ),
                         child: Text(
                           'عملي',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: Almarai,
+                          ),
                         ),
                       ),
                     ),
@@ -127,32 +169,134 @@ class _AttendanceViewState extends State<AttendanceView> {
                             ),
                         child: Text(
                           'نظري',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: Almarai,
+                          ),
                         ),
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
-            SizedBox(height: h*0.01,),
-            isPractical
-                ? PracticalView(selectedDates: practicalDates)
-                : TheoreticalView(selectedDates: theoreticalDates),
-            // SizedBox(height: h*0.06,)
+            SizedBox(
+              height: h * 0.01,
+            ),
+            BlocConsumer<AttendanceCubit, AttendanceState>(
+                listener: (context, state) {
+              if (state is AttendanceFailure) {
+                debugPrint("kkkSubjectFailure");
+                Flushbar(
+                  duration: const Duration(seconds: 3),
+                  backgroundColor: Colors.white,
+                  messageColor: Colors.black,
+                  messageSize: h * 0.02,
+                  message: state.errMessage,
+                ).show(context);
+                // Navigator.pop(context);
+              }
+            }, builder: (context, state) {
+              if (state is AttendanceSuccess) {
+                _attendanceLab = state.attendanceLab;
+                _attendanceTheory = state.attendanceTheroy;
+                return isPractical
+                    ? PracticalView(
+                    subjectId: widget.subject.id, listLab: _attendanceLab)
+                    : TheoreticalView(
+                    subjectId: widget.subject.id,
+                        listTheory: _attendanceTheory);
+              } else {
+                return LoadingPage();
+              }
+            }),
+            SizedBox(
+              height: h * 0.06,
+            )
           ],
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffc5cae9),
-          onPressed: _presentDatePicker,
+          onPressed: (){
+          AwesomeDialog(
+            context: context,
+            borderSide: const BorderSide(
+                color: kButtonColorBlue1,
+                width: 2),
+            dialogType:
+            DialogType.noHeader,
+            showCloseIcon: true,
+            body: Column(
+              children: [
+                SizedBox(height:h* 0.01),
+                InkWell(
+                onTap:(){
+          _presentDatePicker();
+          },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+
+
+                Icon(Icons.add),
+                Spacer(),
+                Text(
+                    'اختر اليوم',
+                    style:TextStyle(
+                      fontFamily: Almarai,
+                    )
+
+                ),
+              ],
+            ),
+            ),
+                SizedBox(height:h* 0.01),
+                DropDownWidget(
+                  list: _optionType.map<DropdownMenuItem<String>>(
+                          (String att) {
+                        return DropdownMenuItem<String>(
+                            value: att,
+                            child: Text(att,style: TextStyle(
+                              fontFamily: Almarai,)));
+                      }).toList(),
+                  w: w*0.05,
+                  text: 'النوع',
+                  selected:  selecttype,
+                  onChanged:  (value) {
+                    setState(() {
+                      selecttype = value;
+                    });
+                    print(selecttype);
+                  },
+                ),
+                SizedBox(height:h* 0.01),
+
+
+
+              ],
+            ),
+            btnCancelOnPress: () {},
+            btnOkOnPress: () {
+              debugPrint("update0001");
+              if (day != null && date != null && selecttype != null
+              ) {
+                BlocProvider.of<
+                    AttendanceCubit>(
+                    context)
+                    .addAttendance(
+                    {
+                    "subject": widget.subject.id,
+                    "date": date,
+                    "day": day,
+                    "type": selecttype
+                  });
+              }
+            },
+          ).show();
+        },
           child: Icon(Icons.add),
         ),
       ),
     );
   }
 }
-
-
-
-

@@ -10,13 +10,19 @@ class FetchLoginUseCase extends UseCase<Login, NoParam> {
   FetchLoginUseCase(this.loginRepo);
 
   @override
-  Future<Either<Failure, Login>> callLogout(int id, [NoParam? param]) async {
-    return await loginRepo.logoutUser(id);
+  Future<Either<Failure, Login>> callLogout( [NoParam? param]) async {
+    return await loginRepo.logoutUser();
   }
 
   @override
   Future<Either<Failure, Login>> callLogin(Map<String, dynamic> data2,
       [NoParam? param]) async {
     return await loginRepo.fetchLoginData(data2);
+  }
+
+  @override
+  Future<Either<Failure, Login>> callSignUp(Map<String, dynamic> data2,
+      [NoParam? param]) async {
+    return await loginRepo.fetchSignupData(data2);
   }
 }

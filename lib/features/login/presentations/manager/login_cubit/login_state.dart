@@ -17,3 +17,4 @@ class LoginSuccess extends LoginState {
   final Login login;
   LoginSuccess(this.login);
 }
+

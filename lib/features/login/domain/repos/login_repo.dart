@@ -5,5 +5,7 @@ import 'package:teachers_marks/features/login/data/models/login_model.dart';
 abstract class LoginRepo {
   Future<Either<ServerFailure, Login>> fetchLoginData(
       Map<String, dynamic> data2);
-  Future<Either<ServerFailure, Login>> logoutUser(dynamic id);
+  Future<Either<ServerFailure, Login>> logoutUser();
+  Future<Either<ServerFailure, Login>> fetchSignupData(
+      Map<String, dynamic> data2);
 }
