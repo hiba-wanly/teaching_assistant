@@ -117,428 +117,427 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
     w = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
-      child: Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: h * 0.01,
-                bottom: h * 0.01,
-                left: w * 0.02,
-                right: w * 0.02),
-            child: Card(
-              shadowColor: Colors.grey,
-              elevation: 6,
-              // color: Color(0xffede7f6),
-              color: Color(0xffe8eaf6),
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: h * 0.01,
-                        bottom: h * 0.01,
-                        left: w * 0.02,
-                        right: w * 0.02),
-                    child: Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children : [
-                            Text(
-                                widget.subject.semester,
-                                    style :TextStyle(
-                    color: kButtonColorBlue1,
-                      fontFamily: Almarai,
-                    ),
-                            ),
-                              Text(
-                                  widget.subject.year,
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: h * 0.01,
+            bottom: h * 0.01,
+            left: w * 0.02,
+            right: w * 0.02),
+        child: Card(
+          shadowColor: Colors.grey,
+          elevation: 6,
+          // color: Color(0xffede7f6),
+          color: Color(0xffe8eaf6),
+          child: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    top: h * 0.01,
+                    bottom: h * 0.01,
+                    left: w * 0.02,
+                    right: w * 0.02),
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children : [
+                        Text(
+                            widget.subject.semester,
                                 style :TextStyle(
-                                  color: kButtonColorBlue1,
-                                  fontFamily: Almarai,
-                                ),
-                              ),
-                          ]
+                color: kButtonColorBlue1,
+                  fontFamily: Almarai,
+                ),
                         ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        TextFormField(
-                          controller: subjectnameController,
+                          Text(
+                              widget.subject.year,
+                            style :TextStyle(
+                              color: kButtonColorBlue1,
+                              fontFamily: Almarai,
+                            ),
+                          ),
+                      ]
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    TextFormField(
+                      controller: subjectnameController,
 
-                          decoration: InputDecoration(
-                              labelText: 'اسم المادة*',
-                              hintText: widget.subject.subject_name != null
-                          ? widget.subject.subject_name.toString()
-                            : "",
-                              labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                          labelText: 'اسم المادة*',
+                          hintText: widget.subject.subject_name != null
+                      ? widget.subject.subject_name.toString()
+                        : "",
+                          labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: Almarai,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
                                 color: Colors.grey,
-                                fontFamily: Almarai,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ))),
-                        ),
+                              ))),
+                    ),
 
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "السنة الدراسية",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: Almarai,
-                                ),
-                              ),
-                              SizedBox(
-                                height: h * 0.009,
-                              ),
-                              // DropdownButton<String>(
-                              //   // hint: Text(''),
-                              //   items:
-                              //       // _dropdownMenuItems,
-                              //       _academicYear.map<DropdownMenuItem<String>>(
-                              //           (String value) {
-                              //     return DropdownMenuItem<String>(
-                              //         value: value, child: Text(value));
-                              //   }).toList(),
-                              //   onChanged: (String? value) {
-                              //     setState(() {
-                              //       // dropdownAcademicValue=value;
-                              //       selectedAcademicYear = value;
-                              //     });
-                              //   },
-                              //   // value: dropdownAcademicValue,
-                              //   icon: Icon(Icons.arrow_drop_down),
-                              // ),
-                              DropDownWidget(
-                                list: _academicYear
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                          value: value, child: Text(value,style: TextStyle(
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "السنة الدراسية",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: Almarai,
+                            ),
+                          ),
+                          SizedBox(
+                            height: h * 0.009,
+                          ),
+                          // DropdownButton<String>(
+                          //   // hint: Text(''),
+                          //   items:
+                          //       // _dropdownMenuItems,
+                          //       _academicYear.map<DropdownMenuItem<String>>(
+                          //           (String value) {
+                          //     return DropdownMenuItem<String>(
+                          //         value: value, child: Text(value));
+                          //   }).toList(),
+                          //   onChanged: (String? value) {
+                          //     setState(() {
+                          //       // dropdownAcademicValue=value;
+                          //       selectedAcademicYear = value;
+                          //     });
+                          //   },
+                          //   // value: dropdownAcademicValue,
+                          //   icon: Icon(Icons.arrow_drop_down),
+                          // ),
+                          DropDownWidget(
+                            list: _academicYear
+                                .map<DropdownMenuItem<String>>(
+                                    (String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: value, child: Text(value,style: TextStyle(
+                                    fontFamily: Almarai,)));
+                                }).toList(),
+                            w: w * 0.05,
+                            text: 'السنة الدراسية',
+                            selected: selectedAcademicYear,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedAcademicYear = value;
+                              });
+                              print(selectedAcademicYear);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "القسم",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: Almarai,
+                            ),
+                          ),
+                          SizedBox(
+                            height: h * 0.009,
+                          ),
+                          // DropdownButton<String>(
+                          //   // hint: Text(''),
+                          //   items:
+                          //       // _dropdownMenuItems,
+                          //       _section.map<DropdownMenuItem<String>>(
+                          //           (Departments department) {
+                          //     return DropdownMenuItem<String>(
+                          //         value: department.name,
+                          //         child: Text(department.name));
+                          //   }).toList(),
+                          //   onChanged: (String? value) {
+                          //     setState(() {
+                          //       // dropdownSectionValue=value;
+                          //       selectedDepartmentId = _section
+                          //           .firstWhere((dept) => dept.name == value)
+                          //           .id;
+                          //     });
+                          //   },
+                          //   // value: dropdownSectionValue,
+                          //   icon: Icon(Icons.arrow_drop_down),
+                          // ),
+                          DropDownWidget(
+                            list: _section.map<DropdownMenuItem<String>>(
+                                    (Departments department) {
+                                  return DropdownMenuItem<String>(
+                                      value: department.name,
+                                      child: Text(department.name, style: TextStyle(
                                         fontFamily: Almarai,)));
-                                    }).toList(),
-                                w: w * 0.05,
-                                text: 'السنة الدراسية',
-                                selected: selectedAcademicYear,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedAcademicYear = value;
-                                  });
-                                  print(selectedAcademicYear);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "القسم",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: Almarai,
-                                ),
-                              ),
-                              SizedBox(
-                                height: h * 0.009,
-                              ),
-                              // DropdownButton<String>(
-                              //   // hint: Text(''),
-                              //   items:
-                              //       // _dropdownMenuItems,
-                              //       _section.map<DropdownMenuItem<String>>(
-                              //           (Departments department) {
-                              //     return DropdownMenuItem<String>(
-                              //         value: department.name,
-                              //         child: Text(department.name));
-                              //   }).toList(),
-                              //   onChanged: (String? value) {
-                              //     setState(() {
-                              //       // dropdownSectionValue=value;
-                              //       selectedDepartmentId = _section
-                              //           .firstWhere((dept) => dept.name == value)
-                              //           .id;
-                              //     });
-                              //   },
-                              //   // value: dropdownSectionValue,
-                              //   icon: Icon(Icons.arrow_drop_down),
-                              // ),
-                              DropDownWidget(
-                                list: _section.map<DropdownMenuItem<String>>(
-                                        (Departments department) {
-                                      return DropdownMenuItem<String>(
-                                          value: department.name,
-                                          child: Text(department.name, style: TextStyle(
-                                            fontFamily: Almarai,)));
-                                    }).toList(),
-                                w: w * 0.5,
-                                text: 'القسم',
-                                selected: _section
+                                }).toList(),
+                            w: w * 0.5,
+                            text: 'القسم',
+                            selected: _section
+                                .firstWhere(
+                                    (dept) =>
+                                dept.id == selectedDepartmentId,
+                                orElse: () => _section[0])
+                                .name,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedDepartmentId = _section
                                     .firstWhere(
-                                        (dept) =>
-                                    dept.id == selectedDepartmentId,
-                                    orElse: () => _section[0])
-                                    .name,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDepartmentId = _section
-                                        .firstWhere(
-                                            (dept) => dept.name == value)
-                                        .id;
-                                  });
-                                  print(selectedDepartmentId);
-                                },
-                              ),
-                            ],
+                                        (dept) => dept.name == value)
+                                    .id;
+                              });
+                              print(selectedDepartmentId);
+                            },
                           ),
-                        ),
-                        SizedBox(
-                          height: h * 0.04,
-                        ),
-                        Container(
-                          padding:EdgeInsets.only(right: w*0.05),
-                          width: double.infinity,
-                          color: Color(0xff9fa8da),
-                          child: Row(
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("معلومات إضافية",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: Almarai,
-                                    // backgroundColor: Color(0xff9fa8da),
-                                  )),
-                              IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      show = !show;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.add_outlined,
-                                    color: Colors.black,
-                                  )),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        Visibility(
-                          visible: show,
-                          child: SizedBox(
-                            height: h * 0.5,
-                            width: double.infinity,
-                            child: Card(
-                              elevation: 3,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.01,
-                                    bottom: h * 0.01,
-                                    left: w * 0.02,
-                                    right: w * 0.02),
-                                child: Column(
-                                  children: [
-                                    // TextFormField(
-                                    //   controller: attendance_markController,
-                                    //   keyboardType: TextInputType.number,
-                                    //   decoration: InputDecoration(
-                                    //       labelText: 'علامة الحضور',
-                                    //       labelStyle: TextStyle(
-                                    //         color: Colors.grey,
-                                    //       ),
-                                    //       enabledBorder: UnderlineInputBorder(
-                                    //           borderSide: BorderSide(
-                                    //         color: Colors.grey,
-                                    //       ))),
-                                    // ),
-                                    BoxController(
-                                        controller: attendance_markController,
-                                        h: h,
-                                        w: w,
-                                        textInputType: TextInputType.number,
-                                        labelText: 'علامة الحضور',
-                                        hintText: widget.subject.attendance_mark != null
-                                            ? widget.subject.attendance_mark.toString()
-                                            : "",),
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    // TextFormField(
-                                    //   controller: interviews_markController,
-                                    //   keyboardType: TextInputType.number,
-                                    //   decoration: InputDecoration(
-                                    //       labelText: 'علامة المقابلة',
-                                    //       labelStyle: TextStyle(
-                                    //         color: Colors.grey,
-                                    //       ),
-                                    //       enabledBorder: UnderlineInputBorder(
-                                    //           borderSide: BorderSide(
-                                    //         color: Colors.grey,
-                                    //       ))),
-                                    // ),
-                                    BoxController(
-                                        controller: interviews_markController,
-                                        h: h,
-                                        w: w,
-                                        textInputType: TextInputType.number,
-                                        labelText: 'علامة المقابلة',
-                                        hintText: widget.subject.interviews_mark != null
-                                    ? widget.subject.interviews_mark.toString()
-                                    : "",),
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    // TextFormField(
-                                    //   controller: labs_markController,
-                                    //   keyboardType: TextInputType.number,
-                                    //   decoration: InputDecoration(
-                                    //       labelText: 'علامة المخبر',
-                                    //       labelStyle: TextStyle(
-                                    //         color: Colors.grey,
-                                    //       ),
-                                    //       enabledBorder: UnderlineInputBorder(
-                                    //           borderSide: BorderSide(
-                                    //         color: Colors.grey,
-                                    //       ))),
-                                    // ),
-                                    BoxController(
-                                        controller: labs_markController,
-                                        h: h,
-                                        w: w,
-                                        textInputType: TextInputType.number,
-                                        labelText: 'علامة المخبر',
-                                        hintText: widget.subject.labs_mark != null
-                                    ? widget.subject.labs_mark.toString()
-                                  : "",),
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    // TextFormField(
-                                    //   controller: tests_markController,
-                                    //   keyboardType: TextInputType.number,
-                                    //   decoration: InputDecoration(
-                                    //       labelText: 'علامة المذاكرة',
-                                    //       labelStyle: TextStyle(
-                                    //         color: Colors.grey,
-                                    //       ),
-                                    //       enabledBorder: UnderlineInputBorder(
-                                    //           borderSide: BorderSide(
-                                    //         color: Colors.grey,
-                                    //       ))),
-                                    // ),
-                                    BoxController(
-                                        controller: tests_markController,
-                                        h: h,
-                                        w: w,
-                                        textInputType: TextInputType.number,
-                                        labelText: 'علامة المذاكرة',
-                                        hintText: widget.subject.tests_mark != null
-                                    ? widget.subject.tests_mark.toString()
-                                : "",),
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    // TextFormField(
-                                    //   controller: homework_markController,
-                                    //   keyboardType: TextInputType.number,
-                                    //   decoration: InputDecoration(
-                                    //       labelText: 'علامة الوظيفة',
-                                    //       labelStyle: TextStyle(
-                                    //         color: Colors.grey,
-                                    //       ),
-                                    //       enabledBorder: UnderlineInputBorder(
-                                    //           borderSide: BorderSide(
-                                    //         color: Colors.grey,
-                                    //       ))),
-                                    // ),
-                                    BoxController(
-                                        controller: homework_markController,
-                                        h: h,
-                                        w: w,
-                                        textInputType: TextInputType.number,
-                                        labelText: 'علامة الوظيفة',
-                                        hintText: widget.subject.homework_mark != null
-                                    ? widget.subject.homework_mark.toString()
-                              : "",),
-
-                                  ],
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.04,
+                    ),
+                    Container(
+                      padding:EdgeInsets.only(right: w*0.05),
+                      width: double.infinity,
+                      color: Color(0xff9fa8da),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("معلومات إضافية",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: Almarai,
+                                // backgroundColor: Color(0xff9fa8da),
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  show = !show;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.add_outlined,
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    Visibility(
+                      visible: show,
+                      child: SizedBox(
+                        height: h * 0.5,
+                        width: double.infinity,
+                        child: Card(
+                          elevation: 3,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: h * 0.01,
+                                bottom: h * 0.01,
+                                left: w * 0.02,
+                                right: w * 0.02),
+                            child: Column(
+                              children: [
+                                // TextFormField(
+                                //   controller: attendance_markController,
+                                //   keyboardType: TextInputType.number,
+                                //   decoration: InputDecoration(
+                                //       labelText: 'علامة الحضور',
+                                //       labelStyle: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //         color: Colors.grey,
+                                //       ))),
+                                // ),
+                                BoxController(
+                                    controller: attendance_markController,
+                                    h: h,
+                                    w: w,
+                                    textInputType: TextInputType.number,
+                                    labelText: 'علامة الحضور',
+                                    hintText: widget.subject.attendance_mark != null
+                                        ? widget.subject.attendance_mark.toString()
+                                        : "",),
+                                SizedBox(
+                                  height: h * 0.02,
                                 ),
-                              ),
+                                // TextFormField(
+                                //   controller: interviews_markController,
+                                //   keyboardType: TextInputType.number,
+                                //   decoration: InputDecoration(
+                                //       labelText: 'علامة المقابلة',
+                                //       labelStyle: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //         color: Colors.grey,
+                                //       ))),
+                                // ),
+                                BoxController(
+                                    controller: interviews_markController,
+                                    h: h,
+                                    w: w,
+                                    textInputType: TextInputType.number,
+                                    labelText: 'علامة المقابلة',
+                                    hintText: widget.subject.interviews_mark != null
+                                ? widget.subject.interviews_mark.toString()
+                                : "",),
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                                // TextFormField(
+                                //   controller: labs_markController,
+                                //   keyboardType: TextInputType.number,
+                                //   decoration: InputDecoration(
+                                //       labelText: 'علامة المخبر',
+                                //       labelStyle: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //         color: Colors.grey,
+                                //       ))),
+                                // ),
+                                BoxController(
+                                    controller: labs_markController,
+                                    h: h,
+                                    w: w,
+                                    textInputType: TextInputType.number,
+                                    labelText: 'علامة المخبر',
+                                    hintText: widget.subject.labs_mark != null
+                                ? widget.subject.labs_mark.toString()
+                              : "",),
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                                // TextFormField(
+                                //   controller: tests_markController,
+                                //   keyboardType: TextInputType.number,
+                                //   decoration: InputDecoration(
+                                //       labelText: 'علامة المذاكرة',
+                                //       labelStyle: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //         color: Colors.grey,
+                                //       ))),
+                                // ),
+                                BoxController(
+                                    controller: tests_markController,
+                                    h: h,
+                                    w: w,
+                                    textInputType: TextInputType.number,
+                                    labelText: 'علامة المذاكرة',
+                                    hintText: widget.subject.tests_mark != null
+                                ? widget.subject.tests_mark.toString()
+                            : "",),
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                                // TextFormField(
+                                //   controller: homework_markController,
+                                //   keyboardType: TextInputType.number,
+                                //   decoration: InputDecoration(
+                                //       labelText: 'علامة الوظيفة',
+                                //       labelStyle: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //         color: Colors.grey,
+                                //       ))),
+                                // ),
+                                BoxController(
+                                    controller: homework_markController,
+                                    h: h,
+                                    w: w,
+                                    textInputType: TextInputType.number,
+                                    labelText: 'علامة الوظيفة',
+                                    hintText: widget.subject.homework_mark != null
+                                ? widget.subject.homework_mark.toString()
+                          : "",),
+
+                              ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        BlocConsumer<SubjectCubit, SubjectState>(
-                            listener: (context, state) {
-                              if (state is SubjectSuccess) {
-                                BlocProvider.of<HomeCubit>(context)
-                                    .updateSubject(state.subject);
-                                Get.off(HomeView());
-                              }
-                              if (state is SubjectFailure) {
-                                debugPrint("kkkSubjectFailure");
-                                Flushbar(
-                                  duration: const Duration(seconds: 3),
-                                  backgroundColor: Colors.white,
-                                  messageColor: Colors.black,
-                                  messageSize: h * 0.02,
-                                  message: state.errMessage,
-                                ).show(context);
-                                // Navigator.pop(context);
-                              }
-                            }, builder: (context, state) {
-                          if (state is SubjectLoading) {
-                            return ButtonLoading();
-                          } else {
-                            return Container(
-                              width: double.infinity,
-                              child: CustomButtonAuth(
-                                text: 'تعديل مادة',
-                                onPressed: () {
-
-                                    BlocProvider.of<SubjectCubit>(context)
-                                        .updateSubject(
-                                        subject = Subject(
-                                      subject_name:
-                                      subjectnameController.text,
-                                      academic_year: selectedAcademicYear,
-                                      departments: selectedDepartmentId,
-                                      tests_mark: tests_markController.text,
-                                      attendance_mark:
-                                      attendance_markController.text,
-                                      interviews_mark:
-                                      interviews_markController.text,
-                                      homework_mark:
-                                      homework_markController.text,
-                                      labs_mark: labs_markController.text,
-                                    ), widget.subject.id);
-
-                                },
-                              ),
-                            );
-                          }
-                        }),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    BlocConsumer<SubjectCubit, SubjectState>(
+                        listener: (context, state) {
+                          if (state is SubjectSuccess) {
+                            BlocProvider.of<HomeCubit>(context)
+                                .updateSubject(state.subject);
+                            Get.off(HomeView());
+                          }
+                          if (state is SubjectFailure) {
+                            debugPrint("kkkSubjectFailure");
+                            Flushbar(
+                              duration: const Duration(seconds: 3),
+                              backgroundColor: Colors.white,
+                              messageColor: Colors.black,
+                              messageSize: h * 0.02,
+                              message: state.errMessage,
+                            ).show(context);
+                            // Navigator.pop(context);
+                          }
+                        }, builder: (context, state) {
+                      if (state is SubjectLoading) {
+                        return ButtonLoading();
+                      } else {
+                        return Container(
+                          width: double.infinity,
+                          child: CustomButtonAuth(
+                            text: 'تعديل مادة',
+                            onPressed: () {
+
+                                BlocProvider.of<SubjectCubit>(context)
+                                    .updateSubject(
+                                    subject = Subject(
+                                  subject_name:
+                                  subjectnameController.text,
+                                  academic_year: selectedAcademicYear,
+                                  departments: selectedDepartmentId,
+                                  tests_mark: tests_markController.text,
+                                  attendance_mark:
+                                  attendance_markController.text,
+                                  interviews_mark:
+                                  interviews_markController.text,
+                                  homework_mark:
+                                  homework_markController.text,
+                                  labs_mark: labs_markController.text,
+                                ), widget.subject.id);
+
+                            },
+                          ),
+                        );
+                      }
+                    }),
+                  ],
+                ),
               ),
-            ),
-          )),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

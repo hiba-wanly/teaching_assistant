@@ -90,7 +90,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
     w = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
-      child: Expanded(
           child: Padding(
         padding: EdgeInsets.only(
             top: h * 0.01, bottom: h * 0.01, left: w * 0.02, right: w * 0.02),
@@ -431,8 +430,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
             ],
           ),
         ),
-      )),
-    );
+      ))
+    ;
   }
 }
 

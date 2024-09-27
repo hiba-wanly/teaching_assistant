@@ -271,8 +271,8 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home:
-          // isLoggedIn ? SplashScreen() : WelcomeView()
-          const WelcomeView(),
+          isLoggedIn ? SplashScreen() : WelcomeView()
+          // const WelcomeView(),
           ),
     );
   }

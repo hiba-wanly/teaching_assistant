@@ -122,20 +122,20 @@ class _HomeViewState extends State<HomeView> {
                   title: Text("موادي",style: TextStyle(
                     fontFamily: Almarai,)),
                   onTap: () {
-                    Get.to(HomeView());
+                    Get.offAll(HomeView());
                   },
                 ),
-                ListTile(
-                  title: Text("حسابي",style: TextStyle(
-                    fontFamily: Almarai,)),
-                  onTap: () {
-                    Get.to(HomeView());
-                  },
-                ),
+                // ListTile(
+                //   title: Text("حسابي",style: TextStyle(
+                //     fontFamily: Almarai,)),
+                //   onTap: () {
+                //     Get.to(HomeView());
+                //   },
+                // ),
                 BlocConsumer<LoginCubit, LoginState>(
                     listener: (context, state) {
                       if (state is LoginSuccess) {
-                        Get.to(WelcomeView());
+                        Get.offAll(WelcomeView());
                       }
                       if (state is LoginFailure) {
                         // debugPrint("kkkLoginFailure");
@@ -217,17 +217,16 @@ class _HomeViewState extends State<HomeView> {
                           children: [
                             InkWell(
                               onTap: () {
-                                // Get.to(UpdateSubjectView(subject:
-                                // subjects[index]
-
-                                // ));
+                                Get.to(UpdateSubjectView(subject:
+                                subjects[index]
+                                ));
                                 // debugPrint("clicked");
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UpdateSubjectView(subject:subjects[index])
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => UpdateSubjectView(subject:subjects[index])
+                                //   ),
+                                // );
                               },
                               child: Icon(
                                 Icons.edit_outlined,
@@ -323,13 +322,13 @@ class _HomeViewState extends State<HomeView> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffc5cae9),
           onPressed: () {
-            // Get.to(AddSubjectView());
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AddSubjectView()
-              ),
-            );
+            Get.to(AddSubjectView());
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) => AddSubjectView()
+            //   ),
+            // );
           },
           child: Icon(Icons.add),
         ),
