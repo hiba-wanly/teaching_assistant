@@ -22,7 +22,6 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
     w = MediaQuery.of(context).size.width;
 
     return Container(
-      // width: double.infinity,
       margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),
       decoration: BoxDecoration(
         gradient: const LinearGradient(

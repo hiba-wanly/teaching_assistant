@@ -8,7 +8,6 @@ class DropDownWidget extends StatelessWidget {
   double w;
   final String text;
   final ValueChanged<dynamic?>? onChanged;
-  // final VoidCallback? onChanged;
   DropDownWidget(
       {super.key,
       required this.list,

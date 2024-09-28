@@ -8,9 +8,7 @@ import '../../constants.dart';
 
 class ApiLog {
 
-  // final Dio _dio;
   final baseUrl = serverApi;
-  // ApiLog(this._dio);
   Dio _dio = Dio(
     BaseOptions(
       baseUrl: serverApi,

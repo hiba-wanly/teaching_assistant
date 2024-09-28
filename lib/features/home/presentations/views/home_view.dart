@@ -32,14 +32,7 @@ class _HomeViewState extends State<HomeView> {
   int? loadingIndex;
 
   final GlobalKey<ScaffoldState> _sKey = GlobalKey();
-  late List<Subject> subjects ;
-
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//
-// }
+  late List<Subject> subjects;
 
   List<Departments> _section = [];
   late String? dropdownSectionValue;
@@ -48,38 +41,31 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     h = MediaQuery.of(context).size.height;
     w = MediaQuery.of(context).size.width;
-    subjects = BlocProvider
-        .of<HomeCubit>(context).subject;
+    subjects = BlocProvider.of<HomeCubit>(context).subject;
 
-    _section = BlocProvider
-        .of<DepartmentCubit>(context).department;
-    // debugPrint("subjectsCOUNT");
-    // debugPrint(subjects[0].subject_name);
+    _section = BlocProvider.of<DepartmentCubit>(context).department;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         key: _sKey,
-        appBar:
-            // CustomAppBar(text: "موادي", h: h,),
-            AppBar(
+        appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Center(child: Text("موادي",style: TextStyle(
-        fontFamily: Almarai,))),
+          title: Center(
+              child: Text("موادي",
+                  style: TextStyle(
+                    fontFamily: Almarai,
+                  ))),
           actions: [
             IconButton(
-              padding: EdgeInsets.only(
-// top: 8.0
-                  top: h * 0.005),
+              padding: EdgeInsets.only(top: h * 0.005),
               onPressed: () {
                 _sKey.currentState?.openDrawer();
               },
               icon: Icon(
-                Icons.menu_rounded,
-                color: Colors.black,
-                size:
-// 30,
-                    w * 0.09,
+                Icons.menu_outlined,
+                color: Colors.black45,
+                size: w * 0.08,
               ),
             ),
           ],
@@ -102,233 +88,215 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: <Widget>[
                 DrawerHeader(
-// decoration: BoxDecoration
-//   (
-//   color: Colors.red
-// ),
                     child: Column(
                   children: [
-                  //   Text(
-                  // BlocProvider
-                  //     .of<LoginCubit>(context).name,
-                  //       style: TextStyle(
-                  //     fontFamily: Almarai,)),
-                    Text(BlocProvider
-                        .of<LoginCubit>(context).name,style: TextStyle(
-                      fontFamily: Almarai,)),
+                    Text(BlocProvider.of<LoginCubit>(context).name,
+                        style: TextStyle(
+                          fontFamily: Almarai,
+                        )),
                   ],
                 )),
                 ListTile(
-                  title: Text("موادي",style: TextStyle(
-                    fontFamily: Almarai,)),
+                  title: Text("موادي",
+                      style: TextStyle(
+                        fontFamily: Almarai,
+                      )),
                   onTap: () {
                     Get.offAll(HomeView());
                   },
                 ),
-                // ListTile(
-                //   title: Text("حسابي",style: TextStyle(
-                //     fontFamily: Almarai,)),
-                //   onTap: () {
-                //     Get.to(HomeView());
-                //   },
-                // ),
                 BlocConsumer<LoginCubit, LoginState>(
                     listener: (context, state) {
-                      if (state is LoginSuccess) {
-                        Get.offAll(WelcomeView());
-                      }
-                      if (state is LoginFailure) {
-                        // debugPrint("kkkLoginFailure");
-                        Flushbar(
-                          duration: const Duration(seconds: 3),
-                          backgroundColor: Colors.white,
-                          messageColor: Colors.black,
-                          messageSize: h * 0.02,
-                          message: state.errMessage,
-                        ).show(context);
-                        // Navigator.pop(context);
-                      }
-                    }, builder: (context, state) {
+                  if (state is LoginSuccess) {
+                    Get.offAll(WelcomeView());
+                  }
+                  if (state is LoginFailure) {
+                    Flushbar(
+                      duration: const Duration(seconds: 3),
+                      backgroundColor: Colors.white,
+                      messageColor: Colors.black,
+                      messageSize: h * 0.02,
+                      message: state.errMessage,
+                    ).show(context);
+                  }
+                }, builder: (context, state) {
                   if (state is LoginLoading) {
-                    return  ListTile(
+                    return ListTile(
                       leading: CircularProgressIndicator(),
-                      title: Text("تسجيل خروج",style: TextStyle(
-                        fontFamily: Almarai,)),
-                      onTap: () {
-                      },
+                      title: Text("تسجيل خروج",
+                          style: TextStyle(
+                            fontFamily: Almarai,
+                          )),
+                      onTap: () {},
                     );
                   } else {
-                    return  ListTile(
+                    return ListTile(
                       leading: Icon(Icons.logout),
-                      title: Text("تسجيل خروج",style: TextStyle(
-                        fontFamily: Almarai,)),
+                      title: Text("تسجيل خروج",
+                          style: TextStyle(
+                            fontFamily: Almarai,
+                          )),
                       onTap: () {
-                        BlocProvider.of<LoginCubit>(context)
-                            .logout();
+                        BlocProvider.of<LoginCubit>(context).logout();
                       },
                     );
                   }
                 }),
-
               ],
             )),
-        body:  subjects == null ? Container() :ListView.builder(
-          itemCount: subjects.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Get.to(LectuerDetails(subject:
-                subjects[index]));
-                // debugPrint("clicked1");
-              },
-              child: Container(
-                height: h * 0.15,
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: BorderSide(
-                      color: kButtonColorBlue2,
-                      width: 6,
-                    ),
-                  ),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Spacer(),
-                        Text(
-                          subjects[index].subject_name ?? "",
-                          style: TextStyle(fontSize: 18,fontFamily: Almarai,),
+        body: subjects == null
+            ? Container()
+            : ListView.builder(
+                itemCount: subjects.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Get.to(LectuerDetails(subject: subjects[index]));
+                      // debugPrint("clicked1");
+                    },
+                    child: Container(
+                      height: h * 0.15,
+                      margin: EdgeInsets.symmetric(
+                          vertical: h * 0.014, horizontal: w * 0.04),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: kButtonColorBlue2,
+                            width: 6,
+                          ),
                         ),
-                        Spacer(),
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.to(UpdateSubjectView(subject:
-                                subjects[index]
-                                ));
-                                // debugPrint("clicked");
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => UpdateSubjectView(subject:subjects[index])
-                                //   ),
-                                // );
-                              },
-                              child: Icon(
-                                Icons.edit_outlined,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(width: w*0.05),
-                BlocConsumer<SubjectCubit, SubjectState>(
-                    listener: (context, state) {
-                      if (state is SubjectSuccess) {
-                        BlocProvider.of<HomeCubit>(context)
-                            .updateSubject(state.subject);
-                        setState((){
-                          subjects = BlocProvider
-                              .of<HomeCubit>(context).subject;
-                        });
-
-                        // update list of subject
-                        // Get.off(HomeView());
-                      }
-                      if (state is SubjectFailure) {
-                        // debugPrint("kkkSubjectFailure");
-                        Flushbar(
-                          duration: const Duration(seconds: 3),
-                          backgroundColor: Colors.white,
-                          messageColor: Colors.black,
-                          messageSize: h * 0.02,
-                          message: state.errMessage,
-                        ).show(context);
-                        // Navigator.pop(context);
-                      }
-                    }, builder: (context, state) {
-                  if (state is SubjectLoading) {
-                    return InkWell(
-                      onTap: () {
-                      },
-                      child: loadingIndex == index
-                          ? CircularProgressIndicator(color: Colors.blue) :
-                      Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                    );
-                  } else {
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          loadingIndex = index; // Track the pressed button
-                        });
-                        BlocProvider.of<SubjectCubit>(context)
-                            .deleteSubject(subjects[index].id);
-                        // debugPrint("clicked");
-                      },
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                    );
-                  }
-                }),
-
-                          ],
-                        )
-                      ],
-                    ),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                          _section
-                          .firstWhere((dept) => dept.id == subjects[index].departments,
-                            // orElse: () => _section[0]
-                        )
-                            .name ,
-                              // subjects[index].departments.toString(),
-                              style: TextStyle(
-                        fontFamily: Almarai,)),
-                          Text( subjects[index]?.academic_year ?? "",style: TextStyle(
-                            fontFamily: Almarai,)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
                         ],
                       ),
-                    ))
-                  ],
-                ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: w * 0.02,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  subjects[index].subject_name ?? "",
+                                  style: TextStyle(
+                                    fontSize: w * 0.04,
+                                    fontFamily: Almarai,
+                                  ),
+                                ),
+                              ),
+                              // Spacer(),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(UpdateSubjectView(
+                                          subject: subjects[index]));
+                                    },
+                                    child: Icon(
+                                      Icons.edit_outlined,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(width: w * 0.05),
+                                  BlocConsumer<SubjectCubit, SubjectState>(
+                                      listener: (context, state) {
+                                    if (state is SubjectSuccess) {
+                                      BlocProvider.of<HomeCubit>(context)
+                                          .updateSubject(state.subject);
+                                      setState(() {
+                                        subjects =
+                                            BlocProvider.of<HomeCubit>(context)
+                                                .subject;
+                                      });
+                                    }
+                                    if (state is SubjectFailure) {
+                                      Flushbar(
+                                        duration: const Duration(seconds: 3),
+                                        backgroundColor: Colors.white,
+                                        messageColor: Colors.black,
+                                        messageSize: h * 0.02,
+                                        message: state.errMessage,
+                                      ).show(context);
+                                    }
+                                  }, builder: (context, state) {
+                                    if (state is SubjectLoading) {
+                                      return InkWell(
+                                        onTap: () {},
+                                        child: loadingIndex == index
+                                            ? CircularProgressIndicator(
+                                                color: Colors.blue)
+                                            : Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ),
+                                      );
+                                    } else {
+                                      return InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            loadingIndex =
+                                                index; // Track the pressed button
+                                          });
+                                          BlocProvider.of<SubjectCubit>(context)
+                                              .deleteSubject(
+                                                  subjects[index].id);
+                                          // debugPrint("clicked");
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }),
+                                ],
+                              )
+                            ],
+                          ),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    _section
+                                        .firstWhere(
+                                          (dept) =>
+                                              dept.id ==
+                                              subjects[index].departments,
+                                        )
+                                        .name,
+                                    style: TextStyle(
+                                        fontFamily: Almarai,
+                                        fontSize: w * 0.032)),
+                                Text(subjects[index]?.academic_year ?? "",
+                                    style: TextStyle(
+                                        fontFamily: Almarai,
+                                        fontSize: w * 0.032)),
+                              ],
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffc5cae9),
           onPressed: () {
             Get.to(AddSubjectView());
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => AddSubjectView()
-            //   ),
-            // );
           },
           child: Icon(Icons.add),
         ),
@@ -336,5 +304,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-

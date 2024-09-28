@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -47,12 +48,11 @@ import 'package:teachers_marks/features/login/domain/use_cases/fetch_login_use_c
 import 'package:teachers_marks/features/login/presentations/manager/login_cubit/login_cubit.dart';
 import 'package:teachers_marks/features/welcome/presentations/views/welcome_views.dart';
 import 'package:teachers_marks/splash_screen.dart';
-
+import 'package:flutter/services.dart';
 void main() async {
-  // runApp(const MyApp());
 
   WidgetsFlutterBinding.ensureInitialized();
-  // await initialService();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
   getIt.registerSingleton<ApiService>(
     ApiService(Dio()),
   );
@@ -76,15 +76,12 @@ void main() async {
     userName: userName,
     name: name,
     email: email,
-    // depatrment:depatrment,
-    // lecturer:lecturer
   ));
 }
 
 final getIt = GetIt.instance;
 
 class MyApp extends StatelessWidget {
-  // const MyApp({super.key});
   MyApp({
     this.isLoggedIn,
     this.user_id,
@@ -92,8 +89,6 @@ class MyApp extends StatelessWidget {
     this.userName,
     this.name,
     this.email,
-    // this.depatrment,
-    // this.lecturer,
   });
 
   final isLoggedIn;
@@ -102,8 +97,6 @@ class MyApp extends StatelessWidget {
   final userName;
   final name;
   final email;
-// final depatrment;
-// final lecturer;
 
   bool success = false;
 
@@ -114,7 +107,6 @@ class MyApp extends StatelessWidget {
 
   late List<Lecturer>? lecturer;
 
-  // @override
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -145,9 +137,6 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            // generalInformation: generalInformation! ,
-            // department: depatrment ?? [],
-            // lecturer: lecturer ?? [],
           );
         }),
         BlocProvider(create: (context) {
@@ -253,17 +242,6 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          // initialRoute: '/',
-          // routes: {
-          //   AppRouter.kHomeView: (context) => SplashScreen(repository: repository),
-          //   AppRouter.kWelcomeView: (context) => HomeView(repository: repository),
-          //   AppRouter.kLectuer: (context) => FinanceView(repository: repository),
-          //   AppRouter.kLogin: (context) =>
-          //       MaterialView(repository: repository),
-          //   AppRouter.kSignup: (context) => OtherView(repository: repository),
-          //   AppRouter.kPrinters: (context) =>
-          //       PrintersView(repository: repository),
-          // },
           title: 'Flutter Demo',
           theme: ThemeData(
             scaffoldBackgroundColor: kPrimaryColor,

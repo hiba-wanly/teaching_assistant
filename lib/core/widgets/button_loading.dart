@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class ButtonLoading extends StatefulWidget {
-  // final void Function()? onPressed;
   const ButtonLoading({super.key});
 
   @override
@@ -43,18 +42,7 @@ class _ButtonLoadingState extends State<ButtonLoading> {
             child: CircularProgressIndicator(color: Colors.white),
           ),
         ),
-      // child: MaterialButton(
-      //   onPressed: (){},
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      //   padding:  EdgeInsets.symmetric(vertical: h*0.02),
-      //   // color: const Color(0x24F10808),
-      //   // textColor: Colors.white,
-      //
-      //   child: const Align(
-      //     alignment: Alignment.center,
-      //     child: CircularProgressIndicator(),
-      //   ),
-      // ),
+
     );
   }
 }

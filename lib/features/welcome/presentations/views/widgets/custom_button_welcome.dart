@@ -28,37 +28,39 @@ class _CustomButtonWelcomeState extends State<CustomButtonWelcome> {
     h = MediaQuery.of(context).size.height;
     w = MediaQuery.of(context).size.width;
 
-    return Container(
-      margin:  EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.02,
-          bottom: MediaQuery.of(context).size.height * 0.02,
-          left: MediaQuery.of(context).size.width * 0.05,
-          right: MediaQuery.of(context).size.width * 0.05
-        ),
-      // padding: const EdgeInsets.all(16),
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.02,
-          bottom: MediaQuery.of(context).size.height * 0.02,
-          left: MediaQuery.of(context).size.width * 0.05,
-          right: MediaQuery.of(context).size.width * 0.05),
-
-      decoration: BoxDecoration(
-        color: kButtonColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Icon(widget.prefixIcon), // Prefix icon
-           SizedBox(width: w*0.04),
-          Expanded(
-            child: Text(
-              widget.text,
-              style:  TextStyle(fontSize: w*0.05, fontWeight: FontWeight.w400),
-            ),
+    return InkWell(
+      onTap:  widget.onPressed,
+      child: Container(
+        margin:  EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.02,
+            bottom: MediaQuery.of(context).size.height * 0.02,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05
           ),
-          IconButton(
-              icon: const Icon(Icons.arrow_forward_ios), onPressed: widget.onPressed),
-        ],
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.02,
+            bottom: MediaQuery.of(context).size.height * 0.02,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05),
+
+        decoration: BoxDecoration(
+          color: kButtonColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Icon(widget.prefixIcon), // Prefix icon
+             SizedBox(width: w*0.04),
+            Expanded(
+              child: Text(
+                widget.text,
+                style:  TextStyle(fontSize: w*0.05, fontWeight: FontWeight.w400),
+              ),
+            ),
+            IconButton(
+                icon: const Icon(Icons.arrow_forward_ios), onPressed: widget.onPressed),
+          ],
+        ),
       ),
     );
   }

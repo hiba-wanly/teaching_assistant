@@ -39,7 +39,9 @@ class _AttendanceViewState extends State<AttendanceView> {
   List<Attendance> _attendanceTheory = [];
 
   List<String> _optionType = [
-    "lab", "theory",];
+    "lab",
+    "theory",
+  ];
 
   void togglePart() {
     setState(() {
@@ -47,16 +49,16 @@ class _AttendanceViewState extends State<AttendanceView> {
     });
   }
 
-  String? day ;
-  String? date ;
-  String? selecttype ;
+  String? day;
+  String? date;
+  String? selecttype;
 
   void _presentDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: DateTime(2100),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -71,7 +73,6 @@ class _AttendanceViewState extends State<AttendanceView> {
         } else {
           theoreticalDates.add(pickedDate);
         }
-        // Display the formatted date
         print(formattedDate);
       });
     });
@@ -82,12 +83,6 @@ class _AttendanceViewState extends State<AttendanceView> {
     // TODO: implement initState
     super.initState();
     BlocProvider.of<AttendanceCubit>(context).getAttendance(widget.subject.id);
-    // _optionType = [
-    //    "lab"
-    //     ,
-    //   "theory"
-    //     ,
-    // ];
   }
 
   @override
@@ -98,13 +93,15 @@ class _AttendanceViewState extends State<AttendanceView> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: CustomAppBar(
+          w: w,
           text: isPractical ? 'عملي' : 'نظري',
           h: h,
         ),
         body: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 8, left: w * 0.15, right: w * 0.15),
+              margin: EdgeInsets.only(
+                  top: h * 0.014, left: w * 0.15, right: w * 0.15),
               alignment: Alignment.center,
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
@@ -133,13 +130,11 @@ class _AttendanceViewState extends State<AttendanceView> {
                         onPressed: () {
                           if (!isPractical) togglePart();
                         },
-                        style: TextButton.styleFrom(
-                            // backgroundColor: isPractical ? Colors.red : Colors.white,
-                            ),
+                        style: TextButton.styleFrom(),
                         child: Text(
                           'عملي',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: w * 0.04,
                             fontFamily: Almarai,
                           ),
                         ),
@@ -164,13 +159,11 @@ class _AttendanceViewState extends State<AttendanceView> {
                         onPressed: () {
                           if (isPractical) togglePart();
                         },
-                        style: TextButton.styleFrom(
-                            // backgroundColor: isPractical ? Colors.white : Colors.red,
-                            ),
+                        style: TextButton.styleFrom(),
                         child: Text(
                           'نظري',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: w * 0.04,
                             fontFamily: Almarai,
                           ),
                         ),
@@ -194,7 +187,6 @@ class _AttendanceViewState extends State<AttendanceView> {
                   messageSize: h * 0.02,
                   message: state.errMessage,
                 ).show(context);
-                // Navigator.pop(context);
               }
             }, builder: (context, state) {
               if (state is AttendanceSuccess) {
@@ -202,9 +194,9 @@ class _AttendanceViewState extends State<AttendanceView> {
                 _attendanceTheory = state.attendanceTheroy;
                 return isPractical
                     ? PracticalView(
-                    subjectId: widget.subject.id, listLab: _attendanceLab)
+                        subjectId: widget.subject.id, listLab: _attendanceLab)
                     : TheoreticalView(
-                    subjectId: widget.subject.id,
+                        subjectId: widget.subject.id,
                         listTheory: _attendanceTheory);
               } else {
                 return LoadingPage();
@@ -217,83 +209,69 @@ class _AttendanceViewState extends State<AttendanceView> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffc5cae9),
-          onPressed: (){
-          AwesomeDialog(
-            context: context,
-            borderSide: const BorderSide(
-                color: kButtonColorBlue1,
-                width: 2),
-            dialogType:
-            DialogType.noHeader,
-            showCloseIcon: true,
-            body: Column(
-              children: [
-                SizedBox(height:h* 0.01),
-                InkWell(
-                onTap:(){
-          _presentDatePicker();
-          },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-
-
-                Icon(Icons.add),
-                Spacer(),
-                Text(
-                    'اختر اليوم',
-                    style:TextStyle(
-                      fontFamily: Almarai,
-                    )
-
-                ),
-              ],
-            ),
-            ),
-                SizedBox(height:h* 0.01),
-                DropDownWidget(
-                  list: _optionType.map<DropdownMenuItem<String>>(
-                          (String att) {
-                        return DropdownMenuItem<String>(
-                            value: att,
-                            child: Text(att,style: TextStyle(
-                              fontFamily: Almarai,)));
-                      }).toList(),
-                  w: w*0.05,
-                  text: 'النوع',
-                  selected:  selecttype,
-                  onChanged:  (value) {
-                    setState(() {
-                      selecttype = value;
-                    });
-                    print(selecttype);
-                  },
-                ),
-                SizedBox(height:h* 0.01),
-
-
-
-              ],
-            ),
-            btnCancelOnPress: () {},
-            btnOkOnPress: () {
-              debugPrint("update0001");
-              if (day != null && date != null && selecttype != null
-              ) {
-                BlocProvider.of<
-                    AttendanceCubit>(
-                    context)
-                    .addAttendance(
-                    {
+          onPressed: () {
+            AwesomeDialog(
+              context: context,
+              borderSide: const BorderSide(color: kButtonColorBlue1, width: 2),
+              dialogType: DialogType.noHeader,
+              showCloseIcon: true,
+              body: Column(
+                children: [
+                  SizedBox(height: h * 0.01),
+                  InkWell(
+                    onTap: () {
+                      _presentDatePicker();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(Icons.add),
+                        Spacer(),
+                        Text('اختر اليوم',
+                            style: TextStyle(
+                              fontFamily: Almarai,
+                            )),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: h * 0.01),
+                  DropDownWidget(
+                    list:
+                        _optionType.map<DropdownMenuItem<String>>((String att) {
+                      return DropdownMenuItem<String>(
+                          value: att,
+                          child: Text(att,
+                              style: TextStyle(
+                                fontFamily: Almarai,
+                              )));
+                    }).toList(),
+                    w: w * 0.05,
+                    text: 'النوع',
+                    selected: selecttype,
+                    onChanged: (value) {
+                      setState(() {
+                        selecttype = value;
+                      });
+                      print(selecttype);
+                    },
+                  ),
+                  SizedBox(height: h * 0.01),
+                ],
+              ),
+              btnCancelOnPress: () {},
+              btnOkOnPress: () {
+                debugPrint("update0001");
+                if (day != null && date != null && selecttype != null) {
+                  BlocProvider.of<AttendanceCubit>(context).addAttendance({
                     "subject": widget.subject.id,
                     "date": date,
                     "day": day,
-                    "type": selecttype
+                    "type": selecttype,
                   });
-              }
-            },
-          ).show();
-        },
+                }
+              },
+            ).show();
+          },
           child: Icon(Icons.add),
         ),
       ),

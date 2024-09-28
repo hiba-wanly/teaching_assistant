@@ -19,7 +19,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  // bool _isHovering = false;
   double h = 1;
   bool ispassword = true;
   double w = 1;
@@ -56,10 +55,6 @@ class _LoginViewState extends State<LoginView> {
                 bottom: MediaQuery.of(context).size.height * 0.02,
                 left: MediaQuery.of(context).size.width * 0.05,
                 right: MediaQuery.of(context).size.width * 0.05),
-            //     .symmetric(
-            //
-            //     horizontal: 30
-            // ),
             child: Center(
               child: ListView(
                 children: [
@@ -86,10 +81,12 @@ class _LoginViewState extends State<LoginView> {
                     onTap: () {},
                     child: Text(
                       "هل نسيت كلمة المرور؟",
-                      style: TextStyle(color: Colors.blue,fontFamily: Almarai,),
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: Almarai,
+                      ),
                     ),
                   ),
-
                   BlocConsumer<LoginCubit, LoginState>(
                       listener: (context, state) {
                     if (state is LoginSuccess) {
@@ -109,57 +106,21 @@ class _LoginViewState extends State<LoginView> {
                   }, builder: (context, state) {
                     if (state is LoginLoading) {
                       return ButtonLoading();
-                      //   Container(
-                      //   width: double.infinity,
-                      //   height: h * 0.06,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(5),
-                      //       gradient: const LinearGradient(
-                      //         colors: [kButtonColorBlue1, kButtonColorBlue2],
-                      //         begin: Alignment.bottomLeft,
-                      //         end: Alignment.topRight,
-                      //         stops: [0.2, 0.8],
-                      //         tileMode: TileMode.repeated,
-                      //       )),
-                      //
-                      //   child: const Align(
-                      //       alignment: Alignment.center,
-                      //       child: CircularProgressIndicator()
-                      //   ),
-                      // );
                     } else {
-                      return
-
-
-
-                        CustomButtonAuth(
+                      return CustomButtonAuth(
                         text: 'تسجيل دخول',
                         onPressed: () {
-
-
-
                           if (formkey.currentState!.validate()) {
                             BlocProvider.of<LoginCubit>(context)
                                 .fetchLoginData({
                               'username': usernameController.text,
                               'password': passwordcontroller.text
-
-
-
-
-                                });
+                            });
                           }
                         },
                       );
                     }
                   }),
-              // CustomButtonAuth(
-              //         text: 'تسجيل دخول',
-              //         onPressed: () {
-              //         Get.offAll(HomeView());
-              //         })
-
-
                 ],
               ),
             ),

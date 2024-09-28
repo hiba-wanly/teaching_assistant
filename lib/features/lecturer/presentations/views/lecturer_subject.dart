@@ -52,26 +52,24 @@ class _LecturerSubjectState extends State<LecturerSubject> {
       child: Scaffold(
         appBar: CustomAppBar(
           h: h,
-          text: "المحاضرين",
+          w: w,
+          text: "المحاضرون",
         ),
         body: Padding(
           padding: EdgeInsets.only(
-              top: h * 0.01,
-              bottom: h * 0.01,
-              left: w * 0.02,
-              right: w * 0.02),
+              top: h * 0.01, bottom: h * 0.01, left: w * 0.02, right: w * 0.02),
           child: Card(
             shadowColor: Colors.grey,
             elevation: 6,
             color: Color(0xffe8eaf6),
             child: BlocConsumer<LecturerSubjectCubit, LecturerSubjectState>(
                 listener: (context, state) {
-                  if (state is LecturerSubjectSuccess){
-                    setState(() {
-                      selectedLecturer = null;
-                      selectedLecturerId =null;
-                    });
-                  }
+              if (state is LecturerSubjectSuccess) {
+                setState(() {
+                  selectedLecturer = null;
+                  selectedLecturerId = null;
+                });
+              }
               if (state is LecturerSubjectFailure) {
                 debugPrint("kkkSubjectFailure");
                 Flushbar(
@@ -81,13 +79,11 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                   messageSize: h * 0.02,
                   message: state.errMessage,
                 ).show(context);
-                // Navigator.pop(context);
               }
             }, builder: (context, state) {
               if (state is LecturerSubjectSuccess) {
-
                 _lecturerSubject = state.lecturerS;
-                return  ListView(
+                return ListView(
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
@@ -111,79 +107,76 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                 child: ListView.builder(
                                   itemCount: _lecturerSubject.length,
                                   itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        textAlign: TextAlign.center,
-                                        _lecturerSubject[index].name,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: Almarai),
-                                      ),
-                                      leading: BlocConsumer<
-                                              LecturerSubjectCubit,
-                                              LecturerSubjectState>(
-                                          listener: (context, state) {
-                                        if (state is LecturerSubjectSuccess) {
-                                          _lecturerSubject = state.lecturerS;
-
-                                        //   // BlocProvider.of<HomeCubit>(context)
-                                        //   //     .updateSubject(state.subject);
-                                        //   // setState((){
-                                        //   //   subjects = BlocProvider
-                                        //   //       .of<HomeCubit>(context).subject;
-                                        //   // });
-                                        //
-                                        //   // update list of subject
-                                        //   // Get.off(HomeView());
-                                        }
-                                        if (state is LecturerSubjectFailure) {
-                                          // debugPrint("kkkSubjectFailure");
-                                          Flushbar(
-                                            duration:
-                                                const Duration(seconds: 3),
-                                            backgroundColor: Colors.white,
-                                            messageColor: Colors.black,
-                                            messageSize: h * 0.02,
-                                            message: state.errMessage,
-                                          ).show(context);
-                                          // Navigator.pop(context);
-                                        }
-                                      }, builder: (context, state) {
-                                        if (state is LecturerSubjectLoading) {
-                                          return InkWell(
-                                            onTap: () {},
-                                            child: loadingIndex == index
-                                                ? CircularProgressIndicator(
-                                                    color: Colors.blue)
-                                                : Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red,
-                                                  ),
-                                          );
-                                        } else {
-                                          return IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                loadingIndex =
-                                                    index; // Track the pressed button
-                                              });
-                                              BlocProvider.of<
-                                                          LecturerSubjectCubit>(
-                                                      context)
-                                                  .deleteLecturer(
-                                                      widget.subject.id,
-                                                      _lecturerSubject[index]
-                                                          .id);
-                                            },
-                                            icon: Icon(
-                                              Icons.delete,
-                                              color: Color(0xffB26361),
-                                            ),
-                                          );
-                                        }
-                                      }),
-
-                                      // Icon(Icons.delete,color: Color(0xffB26361),),
+                                    return Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            textAlign: TextAlign.center,
+                                            _lecturerSubject[index].name,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontFamily: Almarai),
+                                          ),
+                                          leading: BlocConsumer<
+                                                  LecturerSubjectCubit,
+                                                  LecturerSubjectState>(
+                                              listener: (context, state) {
+                                            if (state
+                                                is LecturerSubjectSuccess) {
+                                              _lecturerSubject =
+                                                  state.lecturerS;
+                                            }
+                                            if (state
+                                                is LecturerSubjectFailure) {
+                                              Flushbar(
+                                                duration:
+                                                    const Duration(seconds: 3),
+                                                backgroundColor: Colors.white,
+                                                messageColor: Colors.black,
+                                                messageSize: h * 0.02,
+                                                message: state.errMessage,
+                                              ).show(context);
+                                              // Navigator.pop(context);
+                                            }
+                                          }, builder: (context, state) {
+                                            if (state
+                                                is LecturerSubjectLoading) {
+                                              return InkWell(
+                                                onTap: () {},
+                                                child: loadingIndex == index
+                                                    ? CircularProgressIndicator(
+                                                        color: Colors.blue)
+                                                    : Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                      ),
+                                              );
+                                            } else {
+                                              return IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    loadingIndex =
+                                                        index; // Track the pressed button
+                                                  });
+                                                  BlocProvider.of<
+                                                              LecturerSubjectCubit>(
+                                                          context)
+                                                      .deleteLecturer(
+                                                          widget.subject.id,
+                                                          _lecturerSubject[
+                                                                  index]
+                                                              .id);
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Color(0xffB26361),
+                                                ),
+                                              );
+                                            }
+                                          }),
+                                        ),
+                                        Divider()
+                                      ],
                                     );
                                   },
                                 ),
@@ -191,64 +184,47 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                             ),
                           ),
                           SizedBox(
-                            width: h * 0.5,
+                            height: h * 0.01,
                           ),
                           Text(
-                            "المحاضرين المتاحبن*",
+                            "المحاضرون المتاحون*",
                             style: TextStyle(
                               color: Colors.grey,
                               fontFamily: Almarai,
                             ),
                           ),
                           SizedBox(
-                            width: h * 0.05,
+                            height: h * 0.01,
                           ),
                           DropDownWidget(
                             list: _lecturer.isEmpty
                                 ? []
-                                : _lecturer
-                                .map<DropdownMenuItem<String>>(
+                                : _lecturer.map<DropdownMenuItem<String>>(
                                     (Lecturer lec) {
-                              return DropdownMenuItem<String>(
-                                  value: lec.name,
-                                  child: Text(lec.name,
-                                      style: TextStyle(
-                                        fontFamily: Almarai,
-                                      )));
-                            }).toList(),
+                                    return DropdownMenuItem<String>(
+                                        value: lec.name,
+                                        child: Text(lec.name,
+                                            style: TextStyle(
+                                              fontFamily: Almarai,
+                                            )));
+                                  }).toList(),
                             w: w * 0.5,
                             text: 'المحاضر',
                             selected: selectedLecturer,
-              // _lecturer.isNotEmpty && selectedLecturerId != null
-              //                   ?
-                            // _lecturer.firstWhere((dept) => dept.id == selectedLecturerId, orElse: () => _lecturer[0]).name
-                            // _lecturer.isNotEmpty && selectedLecturerId != null
-                            //     ? _lecturer
-                            //     .firstWhere(
-                            //         (lect) =>
-                            //     lect.id == selectedLecturerId,
-                            //     orElse: () => _lecturer[0])
-                            //     .name // Make sure this references the unique identifier
-                            //     : null,
-
-
-
-
                             onChanged: (value) {
                               setState(() {
                                 selectedLecturer = value;
                                 selectedLecturerId = _lecturer
-                                    .firstWhere(
-                                        (dept) => dept.name == value)
+                                    .firstWhere((dept) => dept.name == value)
                                     .id;
                               });
-                              if(_lecturerSubject.any((lecturer) => lecturer.id == selectedLecturerId)){
-
-                              }else{
+                              if (_lecturerSubject.any((lecturer) =>
+                                  lecturer.id == selectedLecturerId)) {
+                              } else {
                                 BlocProvider.of<LecturerSubjectCubit>(context)
                                     .addLecturer({
-                                  "subject":widget.subject.id,
-                                  "lecturer":selectedLecturerId
+                                  "subject": widget.subject.id,
+                                  "lecturer": selectedLecturerId
                                 });
                               }
 
@@ -257,7 +233,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               } else

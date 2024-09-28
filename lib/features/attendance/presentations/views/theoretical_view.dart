@@ -7,7 +7,7 @@ import 'package:teachers_marks/features/attendance_log/presentations/views/date_
 class TheoreticalView extends StatefulWidget {
   List<Attendance> listTheory;
   int subjectId;
-  TheoreticalView({required this.subjectId,required this.listTheory});
+  TheoreticalView({required this.subjectId, required this.listTheory});
 
   @override
   State<TheoreticalView> createState() => _TheoreticalViewState();
@@ -24,25 +24,27 @@ class _TheoreticalViewState extends State<TheoreticalView> {
         child: ListView.builder(
             itemCount: widget.listTheory.length,
             itemBuilder: (context, index) {
-              // String formattedDate =
-              //     DateFormat('E d/M/y').format(DateTime.parse(widget.listTheory[index].date));
-
               return Card(
                 elevation: 3,
                 color: Colors.white,
                 child: ListTile(
                   title: Text(
                     textAlign: TextAlign.center,
-                    widget.listTheory[index].date + widget.listTheory[index].day, // Display the formatted date
-                    style:  TextStyle(fontSize: 18,
-                      fontFamily: Almarai,),
+                    widget.listTheory[index].date +
+                        widget.listTheory[index]
+                            .day, // Display the formatted date
+                    style: TextStyle(
+                      fontSize: w * 0.04,
+                      fontFamily: Almarai,
+                    ),
                   ),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => DateDetailView(
-                                attId: widget.listTheory[index].id, subjectId: widget.subjectId)));
+                                attId: widget.listTheory[index].id,
+                                subjectId: widget.subjectId)));
                   },
                 ),
               );

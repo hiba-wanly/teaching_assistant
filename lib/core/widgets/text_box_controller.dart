@@ -21,13 +21,6 @@ class _BoxControllerState extends State<BoxController> {
     return  TextFormField(
       textDirection: TextDirection.rtl,
       controller: widget.controller,
-      // style: TextStyle(
-      //   color: Colors.black,
-      //   fontSize: h * 0.018,
-      //   fontWeight: FontWeight.w500,
-      //     fontFamily: Almarai
-      //   // letterSpacing: 0.1,
-      // ),
       keyboardType: widget.textInputType,
       decoration:  InputDecoration(
         hintText: widget.hintText,
@@ -38,7 +31,7 @@ class _BoxControllerState extends State<BoxController> {
             child:  Text(
               widget.labelText,
               style: TextStyle(
-                  // fontSize:  w*0.05,
+
                   color: Colors.grey,fontFamily: Almarai),
             )),
         enabledBorder: UnderlineInputBorder(

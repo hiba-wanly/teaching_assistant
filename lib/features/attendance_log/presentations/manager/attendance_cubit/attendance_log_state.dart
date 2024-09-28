@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teachers_marks/features/attendance/data/models/attendance_model.dart';
 import 'package:teachers_marks/features/attendance_log/data/models/attendance_log_model.dart';
 
+
 @immutable
 abstract class AttendanceLogState {}
 

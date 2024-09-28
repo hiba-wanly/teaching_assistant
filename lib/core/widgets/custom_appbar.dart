@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:teachers_marks/constants.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
   double h = 1;
+  double w = 1;
    String text;
-   CustomAppBar({super.key,required this.h, required this.text});
+   CustomAppBar({super.key,required this.h, required this.text,required this.w});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -14,12 +15,9 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  // double h = 1;
   @override
   Widget build(BuildContext context) {
-    // h = MediaQuery.of(context).size.height;
     return PreferredSize(
-
       preferredSize: Size.fromHeight(widget.h*0.065),
       child: AppBar(
         leading: IconButton(
@@ -28,7 +26,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
             Navigator.of(context).pop(); // Pop the current route
           },
         ),
-        title: Text(widget.text,textAlign:TextAlign.center),
+        title: Text(widget.text,textAlign:TextAlign.center,
+          style: TextStyle(fontSize: widget.w*0.04),),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

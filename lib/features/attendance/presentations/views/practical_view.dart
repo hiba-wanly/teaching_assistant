@@ -7,7 +7,7 @@ import 'package:teachers_marks/features/attendance_log/presentations/views/date_
 class PracticalView extends StatefulWidget {
   List<Attendance> listLab;
   int subjectId;
-  PracticalView({required this.subjectId ,required this.listLab});
+  PracticalView({required this.subjectId, required this.listLab});
   @override
   State<PracticalView> createState() => _PracticalViewState();
 }
@@ -23,25 +23,26 @@ class _PracticalViewState extends State<PracticalView> {
       child: ListView.builder(
         itemCount: widget.listLab.length,
         itemBuilder: (context, index) {
-          // Format the date
-          // String formattedDate =
-          //     DateFormat('E d/M/y').format(DateTime.parse(widget.listLab[index].date));
           return Card(
             elevation: 3,
             color: Colors.white,
             child: ListTile(
               title: Text(
                 textAlign: TextAlign.center,
-                widget.listLab[index].date + widget.listLab[index].day, // Display the formatted date
-                style:  TextStyle(fontSize: 18,
-                  fontFamily: Almarai,),
+                widget.listLab[index].date +
+                    widget.listLab[index].day, // Display the formatted date
+                style: TextStyle(
+                  fontSize: w * 0.04,
+                  fontFamily: Almarai,
+                ),
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        DateDetailView(attId: widget.listLab[index].id, subjectId: widget.subjectId),
+                    builder: (context) => DateDetailView(
+                        attId: widget.listLab[index].id,
+                        subjectId: widget.subjectId),
                   ),
                 );
               },

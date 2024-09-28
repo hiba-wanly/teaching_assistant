@@ -48,21 +48,13 @@ class _LoadGeneralInformationState extends State<LoadGeneralInformation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<GeneralInformationCubit>(context).fetchGeneralInformationData();
+    BlocProvider.of<GeneralInformationCubit>(context)
+        .fetchGeneralInformationData();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GeneralInformationCubit, GeneralInformationState>(
-      // listener: (context, state) {
-      //   if (state is GeneralInformationSuccess) {
-      //     BlocProvider.of<GeneralInformationCubit>(context)
-      //         .updateGeneralInformation(state.General_nformation);
-      //     Get.to(LoadDepartments());
-      //   } else if (state is GeneralInformationFailure) {
-      //     Get.to(SplashScreen());
-      //   }
-      // },
       builder: (context, state) {
         if (state is GeneralInformationSuccess) {
           BlocProvider.of<GeneralInformationCubit>(context)
@@ -70,11 +62,8 @@ class _LoadGeneralInformationState extends State<LoadGeneralInformation> {
           return LoadDepartments();
         } else if (state is GeneralInformationFailure) {
           return LoadGeneralInformation();
-        }
-        else {
-          return Scaffold(
-              backgroundColor : Colors.white,
-              body: LoadingPage());
+        } else {
+          return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
         }
       },
     );
@@ -102,28 +91,15 @@ class _LoadDepartmentsState extends State<LoadDepartments> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
-      // listener: (context, state) {
-      //   if (state is DepartmentSuccess) {
-      //     BlocProvider.of<DepartmentCubit>(context)
-      //         .updateDepartment(state.departments);
-      //     Get.to(LoadLecturer());
-      //   } else if (state is DepartmentFailure) {
-      //     Get.to(SplashScreen());
-      //   }
-      // },
       builder: (context, state) {
         if (state is DepartmentSuccess) {
-        BlocProvider.of<DepartmentCubit>(context)
-            .updateDepartment(state.departments);
-        return LoadLecturer();
-      } else if (state is DepartmentFailure) {
+          BlocProvider.of<DepartmentCubit>(context)
+              .updateDepartment(state.departments);
+          return LoadLecturer();
+        } else if (state is DepartmentFailure) {
           return LoadDepartments();
-      }
-
-        else {
-          return Scaffold(
-              backgroundColor : Colors.white,
-              body: LoadingPage());
+        } else {
+          return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
         }
       },
     );
@@ -151,15 +127,6 @@ class _LoadLecturerState extends State<LoadLecturer> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LecturerCubit, LecturerState>(
-      // listener: (context, state) {
-      //   if (state is LecturerSuccess) {
-      //     BlocProvider.of<LecturerCubit>(context)
-      //         .updateLecturer(state.lecturer);
-      //     Get.to(LoadSubject());
-      //   } else if (state is LecturerFailure) {
-      //     Get.to(SplashScreen());
-      //   }
-      // },
       builder: (context, state) {
         if (state is LecturerSuccess) {
           BlocProvider.of<LecturerCubit>(context)
@@ -167,27 +134,13 @@ class _LoadLecturerState extends State<LoadLecturer> {
           return LoadSubject();
         } else if (state is LecturerFailure) {
           return LoadLecturer();
-        }
-       else {
-          return Scaffold(
-              backgroundColor : Colors.white,
-              body: LoadingPage());
-            // Container(
-            //   color: Colors.white,
-            //   child: const SizedBox(
-            //       width: 25,
-            //       height: 25,
-            //       child: Align(
-            //           alignment: Alignment.center,
-            //           child: CircularProgressIndicator(
-            //             color: Colors.blue,
-            //           ))));
+        } else {
+          return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
         }
       },
     );
   }
 }
-
 
 ///load Subject
 class LoadSubject extends StatefulWidget {
@@ -210,27 +163,14 @@ class _LoadSubjectState extends State<LoadSubject> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      // listener: (context, state) {
-      //   if (state is HomeSuccess) {
-      //     BlocProvider.of<HomeCubit>(context)
-      //         .updateSubject(state.subject);
-      //     Get.off(HomeView());
-      //   } else if (state is HomeFailure) {
-      //     Get.off(SplashScreen());
-      //   }
-      // },
       builder: (context, state) {
         if (state is HomeSuccess) {
-          BlocProvider.of<HomeCubit>(context)
-              .updateSubject(state.subject);
+          BlocProvider.of<HomeCubit>(context).updateSubject(state.subject);
           return HomeView();
         } else if (state is HomeFailure) {
           return LoadSubject();
-        }
-        else {
-          return Scaffold(
-              backgroundColor : Colors.white,
-              body: LoadingPage());
+        } else {
+          return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
         }
       },
     );

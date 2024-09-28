@@ -16,8 +16,6 @@ import 'package:teachers_marks/features/departments/presentations/manager/depart
 import 'package:teachers_marks/features/home/presentations/manager/home_cubit/home_cubit.dart';
 import 'package:teachers_marks/features/home/presentations/views/home_view.dart';
 
-
-
 class UpdateSubjectView extends StatefulWidget {
   Subject subject;
   UpdateSubjectView({super.key, required this.subject});
@@ -38,13 +36,13 @@ class _UpdateSubjectViewState extends State<UpdateSubjectView> {
         child: Scaffold(
           appBar: CustomAppBar(
             h: h,
+            w: w,
             text: "تعديل مادة",
           ),
           body: UpdateCustomForm(subject: widget.subject),
         ));
   }
 }
-
 
 class UpdateCustomForm extends StatefulWidget {
   Subject subject;
@@ -63,20 +61,9 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
 
   String? selectedAcademicYear;
   int? selectedDepartmentId;
-  // late String? dropdownAcademicValue=_academicYear[0];
 
   List<Departments> _section = [];
-  // [
-  //   " هندسة الحواسيب والأتمتة",
-  //   " الهندسة الطبية",
-  //   " الالكترونيات و الاتصالات",
-  //   " هندسة الطاقة الكهربائية",
-  //   " هندسة السيارات والآليات الثقيلة",
-  //   " هندسة التصميم الميكانيكي",
-  //   " هندسة الميكانيك العام",
-  //   " هندسة ميكانيك الصناعات النسيجية و تقاناتها",
-  //
-  // ];
+
   late String? dropdownSectionValue;
 
   bool show = false;
@@ -84,8 +71,6 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
   @override
   void initState() {
     super.initState();
-
-    // debugPrint(_section.toString());
   }
 
   TextEditingController subjectnameController = new TextEditingController();
@@ -100,8 +85,7 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    _section = BlocProvider
-        .of<DepartmentCubit>(context).department;
+    _section = BlocProvider.of<DepartmentCubit>(context).department;
 
     selectedAcademicYear = widget.subject.academic_year;
     selectedDepartmentId = widget.subject.departments;
@@ -110,23 +94,16 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
             orElse: () => _section[0])
         .name;
 
-    // debugPrint(widget.subject.subject_name.toString());
-
-
     h = MediaQuery.of(context).size.height;
     w = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
       child: Padding(
         padding: EdgeInsets.only(
-            top: h * 0.01,
-            bottom: h * 0.01,
-            left: w * 0.02,
-            right: w * 0.02),
+            top: h * 0.01, bottom: h * 0.01, left: w * 0.02, right: w * 0.02),
         child: Card(
           shadowColor: Colors.grey,
           elevation: 6,
-          // color: Color(0xffede7f6),
           color: Color(0xffe8eaf6),
           child: ListView(
             children: [
@@ -140,44 +117,41 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                   children: [
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children : [
-                        Text(
-                            widget.subject.semester,
-                                style :TextStyle(
-                color: kButtonColorBlue1,
-                  fontFamily: Almarai,
-                ),
-                        ),
+                        children: [
                           Text(
-                              widget.subject.year,
-                            style :TextStyle(
+                            widget.subject.semester,
+                            style: TextStyle(
                               color: kButtonColorBlue1,
                               fontFamily: Almarai,
                             ),
                           ),
-                      ]
-                    ),
+                          Text(
+                            widget.subject.year,
+                            style: TextStyle(
+                              color: kButtonColorBlue1,
+                              fontFamily: Almarai,
+                            ),
+                          ),
+                        ]),
                     SizedBox(
                       height: h * 0.02,
                     ),
                     TextFormField(
                       controller: subjectnameController,
-
                       decoration: InputDecoration(
                           labelText: 'اسم المادة*',
                           hintText: widget.subject.subject_name != null
-                      ? widget.subject.subject_name.toString()
-                        : "",
+                              ? widget.subject.subject_name.toString()
+                              : "",
                           labelStyle: TextStyle(
                             color: Colors.grey,
                             fontFamily: Almarai,
                           ),
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.grey,
-                              ))),
+                            color: Colors.grey,
+                          ))),
                     ),
-
                     SizedBox(
                       height: h * 0.02,
                     ),
@@ -195,32 +169,16 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                           SizedBox(
                             height: h * 0.009,
                           ),
-                          // DropdownButton<String>(
-                          //   // hint: Text(''),
-                          //   items:
-                          //       // _dropdownMenuItems,
-                          //       _academicYear.map<DropdownMenuItem<String>>(
-                          //           (String value) {
-                          //     return DropdownMenuItem<String>(
-                          //         value: value, child: Text(value));
-                          //   }).toList(),
-                          //   onChanged: (String? value) {
-                          //     setState(() {
-                          //       // dropdownAcademicValue=value;
-                          //       selectedAcademicYear = value;
-                          //     });
-                          //   },
-                          //   // value: dropdownAcademicValue,
-                          //   icon: Icon(Icons.arrow_drop_down),
-                          // ),
                           DropDownWidget(
                             list: _academicYear
-                                .map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                      value: value, child: Text(value,style: TextStyle(
-                                    fontFamily: Almarai,)));
-                                }).toList(),
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: TextStyle(
+                                        fontFamily: Almarai,
+                                      )));
+                            }).toList(),
                             w: w * 0.05,
                             text: 'السنة الدراسية',
                             selected: selectedAcademicYear,
@@ -251,48 +209,27 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                           SizedBox(
                             height: h * 0.009,
                           ),
-                          // DropdownButton<String>(
-                          //   // hint: Text(''),
-                          //   items:
-                          //       // _dropdownMenuItems,
-                          //       _section.map<DropdownMenuItem<String>>(
-                          //           (Departments department) {
-                          //     return DropdownMenuItem<String>(
-                          //         value: department.name,
-                          //         child: Text(department.name));
-                          //   }).toList(),
-                          //   onChanged: (String? value) {
-                          //     setState(() {
-                          //       // dropdownSectionValue=value;
-                          //       selectedDepartmentId = _section
-                          //           .firstWhere((dept) => dept.name == value)
-                          //           .id;
-                          //     });
-                          //   },
-                          //   // value: dropdownSectionValue,
-                          //   icon: Icon(Icons.arrow_drop_down),
-                          // ),
                           DropDownWidget(
                             list: _section.map<DropdownMenuItem<String>>(
-                                    (Departments department) {
-                                  return DropdownMenuItem<String>(
-                                      value: department.name,
-                                      child: Text(department.name, style: TextStyle(
-                                        fontFamily: Almarai,)));
-                                }).toList(),
+                                (Departments department) {
+                              return DropdownMenuItem<String>(
+                                  value: department.name,
+                                  child: Text(department.name,
+                                      style: TextStyle(
+                                        fontFamily: Almarai,
+                                      )));
+                            }).toList(),
                             w: w * 0.5,
                             text: 'القسم',
                             selected: _section
                                 .firstWhere(
-                                    (dept) =>
-                                dept.id == selectedDepartmentId,
-                                orElse: () => _section[0])
+                                    (dept) => dept.id == selectedDepartmentId,
+                                    orElse: () => _section[0])
                                 .name,
                             onChanged: (value) {
                               setState(() {
                                 selectedDepartmentId = _section
-                                    .firstWhere(
-                                        (dept) => dept.name == value)
+                                    .firstWhere((dept) => dept.name == value)
                                     .id;
                               });
                               print(selectedDepartmentId);
@@ -305,12 +242,10 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                       height: h * 0.04,
                     ),
                     Container(
-                      padding:EdgeInsets.only(right: w*0.05),
+                      padding: EdgeInsets.only(right: w * 0.05),
                       width: double.infinity,
                       color: Color(0xff9fa8da),
                       child: Row(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisSize: MainAxisSize.min,
                         children: [
                           Text("معلومات إضافية",
                               style: TextStyle(
@@ -349,129 +284,72 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                                 right: w * 0.02),
                             child: Column(
                               children: [
-                                // TextFormField(
-                                //   controller: attendance_markController,
-                                //   keyboardType: TextInputType.number,
-                                //   decoration: InputDecoration(
-                                //       labelText: 'علامة الحضور',
-                                //       labelStyle: TextStyle(
-                                //         color: Colors.grey,
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(
-                                //         color: Colors.grey,
-                                //       ))),
-                                // ),
                                 BoxController(
-                                    controller: attendance_markController,
-                                    h: h,
-                                    w: w,
-                                    textInputType: TextInputType.number,
-                                    labelText: 'علامة الحضور',
-                                    hintText: widget.subject.attendance_mark != null
-                                        ? widget.subject.attendance_mark.toString()
-                                        : "",),
+                                  controller: attendance_markController,
+                                  h: h,
+                                  w: w,
+                                  textInputType: TextInputType.number,
+                                  labelText: 'علامة الحضور',
+                                  hintText:
+                                      widget.subject.attendance_mark != null
+                                          ? widget.subject.attendance_mark
+                                              .toString()
+                                          : "",
+                                ),
                                 SizedBox(
                                   height: h * 0.02,
                                 ),
-                                // TextFormField(
-                                //   controller: interviews_markController,
-                                //   keyboardType: TextInputType.number,
-                                //   decoration: InputDecoration(
-                                //       labelText: 'علامة المقابلة',
-                                //       labelStyle: TextStyle(
-                                //         color: Colors.grey,
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(
-                                //         color: Colors.grey,
-                                //       ))),
-                                // ),
                                 BoxController(
-                                    controller: interviews_markController,
-                                    h: h,
-                                    w: w,
-                                    textInputType: TextInputType.number,
-                                    labelText: 'علامة المقابلة',
-                                    hintText: widget.subject.interviews_mark != null
-                                ? widget.subject.interviews_mark.toString()
-                                : "",),
+                                  controller: interviews_markController,
+                                  h: h,
+                                  w: w,
+                                  textInputType: TextInputType.number,
+                                  labelText: 'علامة المقابلة',
+                                  hintText:
+                                      widget.subject.interviews_mark != null
+                                          ? widget.subject.interviews_mark
+                                              .toString()
+                                          : "",
+                                ),
                                 SizedBox(
                                   height: h * 0.02,
                                 ),
-                                // TextFormField(
-                                //   controller: labs_markController,
-                                //   keyboardType: TextInputType.number,
-                                //   decoration: InputDecoration(
-                                //       labelText: 'علامة المخبر',
-                                //       labelStyle: TextStyle(
-                                //         color: Colors.grey,
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(
-                                //         color: Colors.grey,
-                                //       ))),
-                                // ),
                                 BoxController(
-                                    controller: labs_markController,
-                                    h: h,
-                                    w: w,
-                                    textInputType: TextInputType.number,
-                                    labelText: 'علامة المخبر',
-                                    hintText: widget.subject.labs_mark != null
-                                ? widget.subject.labs_mark.toString()
-                              : "",),
+                                  controller: labs_markController,
+                                  h: h,
+                                  w: w,
+                                  textInputType: TextInputType.number,
+                                  labelText: 'علامة المخبر',
+                                  hintText: widget.subject.labs_mark != null
+                                      ? widget.subject.labs_mark.toString()
+                                      : "",
+                                ),
                                 SizedBox(
                                   height: h * 0.02,
                                 ),
-                                // TextFormField(
-                                //   controller: tests_markController,
-                                //   keyboardType: TextInputType.number,
-                                //   decoration: InputDecoration(
-                                //       labelText: 'علامة المذاكرة',
-                                //       labelStyle: TextStyle(
-                                //         color: Colors.grey,
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(
-                                //         color: Colors.grey,
-                                //       ))),
-                                // ),
                                 BoxController(
-                                    controller: tests_markController,
-                                    h: h,
-                                    w: w,
-                                    textInputType: TextInputType.number,
-                                    labelText: 'علامة المذاكرة',
-                                    hintText: widget.subject.tests_mark != null
-                                ? widget.subject.tests_mark.toString()
-                            : "",),
+                                  controller: tests_markController,
+                                  h: h,
+                                  w: w,
+                                  textInputType: TextInputType.number,
+                                  labelText: 'علامة المذاكرة',
+                                  hintText: widget.subject.tests_mark != null
+                                      ? widget.subject.tests_mark.toString()
+                                      : "",
+                                ),
                                 SizedBox(
                                   height: h * 0.02,
                                 ),
-                                // TextFormField(
-                                //   controller: homework_markController,
-                                //   keyboardType: TextInputType.number,
-                                //   decoration: InputDecoration(
-                                //       labelText: 'علامة الوظيفة',
-                                //       labelStyle: TextStyle(
-                                //         color: Colors.grey,
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(
-                                //         color: Colors.grey,
-                                //       ))),
-                                // ),
                                 BoxController(
-                                    controller: homework_markController,
-                                    h: h,
-                                    w: w,
-                                    textInputType: TextInputType.number,
-                                    labelText: 'علامة الوظيفة',
-                                    hintText: widget.subject.homework_mark != null
-                                ? widget.subject.homework_mark.toString()
-                          : "",),
-
+                                  controller: homework_markController,
+                                  h: h,
+                                  w: w,
+                                  textInputType: TextInputType.number,
+                                  labelText: 'علامة الوظيفة',
+                                  hintText: widget.subject.homework_mark != null
+                                      ? widget.subject.homework_mark.toString()
+                                      : "",
+                                ),
                               ],
                             ),
                           ),
@@ -483,23 +361,22 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                     ),
                     BlocConsumer<SubjectCubit, SubjectState>(
                         listener: (context, state) {
-                          if (state is SubjectSuccess) {
-                            BlocProvider.of<HomeCubit>(context)
-                                .updateSubject(state.subject);
-                            Get.off(HomeView());
-                          }
-                          if (state is SubjectFailure) {
-                            debugPrint("kkkSubjectFailure");
-                            Flushbar(
-                              duration: const Duration(seconds: 3),
-                              backgroundColor: Colors.white,
-                              messageColor: Colors.black,
-                              messageSize: h * 0.02,
-                              message: state.errMessage,
-                            ).show(context);
-                            // Navigator.pop(context);
-                          }
-                        }, builder: (context, state) {
+                      if (state is SubjectSuccess) {
+                        BlocProvider.of<HomeCubit>(context)
+                            .updateSubject(state.subject);
+                        Get.off(HomeView());
+                      }
+                      if (state is SubjectFailure) {
+                        debugPrint("kkkSubjectFailure");
+                        Flushbar(
+                          duration: const Duration(seconds: 3),
+                          backgroundColor: Colors.white,
+                          messageColor: Colors.black,
+                          messageSize: h * 0.02,
+                          message: state.errMessage,
+                        ).show(context);
+                      }
+                    }, builder: (context, state) {
                       if (state is SubjectLoading) {
                         return ButtonLoading();
                       } else {
@@ -508,24 +385,23 @@ class _UpdateCustomFormState extends State<UpdateCustomForm> {
                           child: CustomButtonAuth(
                             text: 'تعديل مادة',
                             onPressed: () {
-
-                                BlocProvider.of<SubjectCubit>(context)
-                                    .updateSubject(
-                                    subject = Subject(
-                                  subject_name:
-                                  subjectnameController.text,
-                                  academic_year: selectedAcademicYear,
-                                  departments: selectedDepartmentId,
-                                  tests_mark: tests_markController.text,
-                                  attendance_mark:
-                                  attendance_markController.text,
-                                  interviews_mark:
-                                  interviews_markController.text,
-                                  homework_mark:
-                                  homework_markController.text,
-                                  labs_mark: labs_markController.text,
-                                ), widget.subject.id);
-
+                              BlocProvider.of<SubjectCubit>(context)
+                                  .updateSubject(
+                                      subject = Subject(
+                                        subject_name:
+                                            subjectnameController.text,
+                                        academic_year: selectedAcademicYear,
+                                        departments: selectedDepartmentId,
+                                        tests_mark: tests_markController.text,
+                                        attendance_mark:
+                                            attendance_markController.text,
+                                        interviews_mark:
+                                            interviews_markController.text,
+                                        homework_mark:
+                                            homework_markController.text,
+                                        labs_mark: labs_markController.text,
+                                      ),
+                                      widget.subject.id);
                             },
                           ),
                         );

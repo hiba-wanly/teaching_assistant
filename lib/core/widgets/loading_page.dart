@@ -15,13 +15,11 @@ class _LoadingPageState extends State<LoadingPage> {
     return  Center(
         child: Container(
             color: Colors.white,
-            // width: MediaQuery.of(context).size.width ,
-            // height: MediaQuery.of(context).size.width ,
         child: ClipRect(
         child: Image.asset(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.width * 0.5,
-          AppImagesAssets.loading, // Replace with your image URL
+          AppImagesAssets.loading,
         fit: BoxFit.cover, // Adjust image fit
         ),
         )
@@ -29,13 +27,5 @@ class _LoadingPageState extends State<LoadingPage> {
       )
     ;
 
-        // child:  SizedBox(
-        //     width: MediaQuery.of(context).size.width * 0.5,
-        //     height: MediaQuery.of(context).size.width * 0.5,
-        //     child: Align(
-        //         alignment: Alignment.center,
-        //         child: CircularProgressIndicator(
-        //           color: Colors.blue,
-        //         ))));
   }
 }

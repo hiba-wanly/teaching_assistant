@@ -30,11 +30,11 @@ class _LogoAuthState extends State<LogoAuth> {
       ),
       child: ClipRRect(
           borderRadius:
-          const  BorderRadius.all(Radius.circular(80)), // Image radius
+          const  BorderRadius.all(Radius.circular(25)), // Image radius
           child: Image.asset(
             AppImagesAssets.logo,
             height: h*0.3,
-            width: w*0.55,
+            // width: w*0.55,
             fit: BoxFit.cover,
           )),
     );

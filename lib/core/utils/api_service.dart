@@ -39,7 +39,6 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> postList({required String endPoint, required List<Map<String,dynamic>> data1}) async {
-    // FormData data2 = FormData.fromMap(data1);
     String? token =
     (await SharedPreferences.getInstance()).getString("token");
 
