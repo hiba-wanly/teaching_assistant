@@ -6,15 +6,20 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:teachers_marks/constants.dart';
+import 'package:teachers_marks/core/widgets/awesome_dialog_widget.dart';
 import 'package:teachers_marks/core/widgets/loading_page.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/attendance_view.dart';
+import 'package:teachers_marks/features/attendance_log/data/models/attendance_student_log_model.dart';
 import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_cubit/attendance_log_cubit.dart';
 import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_cubit/attendance_log_state.dart';
+import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_student_log_cubit/attendance_student_log_cubit.dart';
+import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_student_log_cubit/attendance_student_log_state.dart';
 import 'package:teachers_marks/features/attendance_log/presentations/views/attendance_log_detail.dart';
 import 'package:teachers_marks/features/departments/data/models/student_model.dart';
 import 'package:teachers_marks/features/departments/presentations/manager/student_cubit/student_cubit.dart';
 import 'package:teachers_marks/features/departments/presentations/manager/student_cubit/student_state.dart';
 import 'package:teachers_marks/features/home/presentations/views/home_view.dart';
+import 'package:teachers_marks/features/welcome/presentations/views/welcome_views.dart';
 
 class DateDetailView extends StatefulWidget {
   final int attId;
@@ -30,20 +35,23 @@ class _DateDetailViewState extends State<DateDetailView> {
   double w = 1;
   TextEditingController _searchController = TextEditingController();
   ScrollController _scrollController = ScrollController();
-  late List<Student> _contacts = [];
+  late List<AttendanceStudentLog> _contacts = [];
 
-  late List<Student> _filteredContacts = [];
+  late List<AttendanceStudentLog> _filteredContacts = [];
   late List<String> selectedIcons = [];
+
+  late List<AttendanceStudentLog> attendanceStudentLog = [];
 
   List<Map<String, dynamic>> sendData = [];
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<StudentCubit>(context).getStudentData(widget.subjectId);
+    BlocProvider.of<AttendanceStudentLogCubit>(context)
+        .getAttendanceStudentLog(widget.subjectId, widget.attId);
   }
 
-  late List<Student> results = [];
+  late List<AttendanceStudentLog> results = [];
 
   String _selectedLetter = '';
   void _scrollToLetter(String letter) {
@@ -104,7 +112,9 @@ class _DateDetailViewState extends State<DateDetailView> {
                   prefixIcon: Icon(Icons.search),
                 ),
                 onChanged: (value) {
-                  context.read<StudentCubit>().filterStudents(value);
+                  context
+                      .read<AttendanceStudentLogCubit>()
+                      .filterStudents(value);
                 },
               ),
             ),
@@ -112,46 +122,47 @@ class _DateDetailViewState extends State<DateDetailView> {
         ),
         body: SingleChildScrollView(
           child: Column(children: [
-            GestureDetector(
-              onTap: () {
-                Get.to(AttendanceLogDetail(attId: widget.attId));
-              },
-              child: Container(
-                height: h * 0.05,
-                width: w,
-                margin: EdgeInsets.symmetric(vertical: h * 0.014, horizontal: w * 0.02),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: BorderSide(
-                      color: kButtonColorBlue2,
-                      width: 3,
-                    ),
-                  ),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Center(
-                    child: Text(
-                                      "الحضور المسجل",
-                                      style: TextStyle(
-                    fontSize: w*0.04,
-                    fontFamily: Almarai,
-                                      ),
-                                    )),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.to(AttendanceLogDetail(attId: widget.attId));
+            //   },
+            //   child: Container(
+            //     height: h * 0.05,
+            //     width: w,
+            //     margin: EdgeInsets.symmetric(vertical: h * 0.014, horizontal: w * 0.02),
+            //     padding: EdgeInsets.all(10),
+            //     decoration: BoxDecoration(
+            //       border: Border(
+            //         right: BorderSide(
+            //           color: kButtonColorBlue2,
+            //           width: 3,
+            //         ),
+            //       ),
+            //       color: Colors.white,
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: Colors.grey.withOpacity(0.5),
+            //           spreadRadius: 2,
+            //           blurRadius: 5,
+            //           offset: Offset(0, 3),
+            //         ),
+            //       ],
+            //     ),
+            //     child: Center(
+            //         child: Text(
+            //                           "الحضور المسجل",
+            //                           style: TextStyle(
+            //         fontSize: w*0.04,
+            //         fontFamily: Almarai,
+            //                           ),
+            //                         )),
+            //   ),
+            // ),
             // SizedBox(height: h*0.09),
-            BlocConsumer<StudentCubit, StudentState>(
+            BlocConsumer<AttendanceStudentLogCubit, AttendanceStudentLogState>(
                 listener: (context, state) {
-              if (state is StudentFailure) {
+              if (state is AttendanceStudentLogFailure) {
+
                 debugPrint("kkkSubjectFailure");
                 Flushbar(
                   duration: const Duration(seconds: 3),
@@ -162,14 +173,18 @@ class _DateDetailViewState extends State<DateDetailView> {
                 ).show(context);
               }
             }, builder: (context, state) {
-              if (state is StudentSuccess) {
+              if (state is AttendanceStudentLogSuccess) {
                 if (selectedIcons.isEmpty) {
                   selectedIcons = List<String>.filled(
-                      state.student.length, ''); // Initialize once
+                      state.attendanceLog.length, ''); // Initialize once
                 }
-                _contacts = state.student;
+                // for (int i = 0; i < attendanceLog.length; i++) {
+                //   var student = attendanceLog[i];
+                //   selectedIcons[i] = student.status; // Adjust according to your model
+                // }
+                _contacts = state.attendanceLog;
 
-                _filteredContacts = _contacts;
+                _filteredContacts = state.attendanceLog;
 
                 print('%%%%%%%%%%%%%%%%%%_filteredContacts');
                 print('Contacts $_filteredContacts');
@@ -202,7 +217,7 @@ class _DateDetailViewState extends State<DateDetailView> {
                                             fit: BoxFit.scaleDown,
                                             child: Text(
                                                 _filteredContacts[index]
-                                                        .first_name +
+                                                    .first_name +
                                                     ' ' +
                                                     _filteredContacts[index]
                                                         .father_name +
@@ -216,132 +231,266 @@ class _DateDetailViewState extends State<DateDetailView> {
                                           // trailing: ,
                                           subtitle: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                             children: [
                                               IconButton(
                                                 icon: Icon(Icons.check_circle,
-                                                    color: selectedIcons[index] ==
-                                                            'حضور'
+                                                    color: _filteredContacts[index].status ==
+                                                        'attended'
                                                         ? Colors.green
                                                         : Colors.grey),
                                                 onPressed: () {
-                                                  setState(() {
-                                                    selectedIcons[index] = 'حضور';
-                                                  });
-                                                  Map<String, dynamic> data = {
-                                                    "attendance": widget.attId,
-                                                    "student":
+                                                  _filteredContacts[index].status !=
+                                                      '' ?
+                                                  AwesomeDialogWidget.show(
+                                                    context,
+                                                    'هل أنت متأكد من تغير حالة الطالب ' +_filteredContacts[index].first_name +" from " +_filteredContacts[index].status+" to "+"attended" ,
+                                                        () {
+                                                      debugPrint(_filteredContacts[index]
+                                                          .student_id.toString());
+                                                      setState(() {
+                                                        selectedIcons[index] = 'حضور';
+                                                        _filteredContacts[index].status =
+                                                        'attended' ;
+                                                      });
+                                                      Map<String, dynamic> data = {
+                                                        "attendance": widget.attId,
+                                                        "student":
                                                         _filteredContacts[index]
-                                                            .id,
-                                                    "status": "attended"
-                                                  };
-                                                  bool containsData =
+                                                            .student_id,
+                                                        "status": "attended"
+                                                      };
+                                                      bool containsData =
                                                       sendData.any((item) =>
-                                                          item['student'] ==
+                                                      item['student'] ==
                                                           data['student']);
-                                                  if (containsData) {
-                                                    sendData.removeWhere((item) =>
+                                                      if (containsData) {
+                                                        sendData.removeWhere((item) =>
                                                         item['student'] ==
+                                                            data['student']);
+                                                        sendData.add(data);
+                                                      } else {
+                                                        sendData.add(data);
+                                                      }
+                                                    },
+                                                  ) :  setState(() {
+                                                    debugPrint(_filteredContacts[index]
+                                                        .student_id.toString());
+                                                    selectedIcons[index] = 'حضور';
+                                                    _filteredContacts[index].status =
+                                                    'attended' ;
+                                                    Map<String, dynamic> data = {
+                                                      "attendance": widget.attId,
+                                                      "student":
+                                                      _filteredContacts[index]
+                                                          .student_id,
+                                                      "status": "attended"
+                                                    };
+                                                    bool containsData =
+                                                    sendData.any((item) =>
+                                                    item['student'] ==
                                                         data['student']);
-                                                    sendData.add(data);
-                                                  } else {
-                                                    sendData.add(data);
-                                                  }
+                                                    if (containsData) {
+                                                      sendData.removeWhere((item) =>
+                                                      item['student'] ==
+                                                          data['student']);
+                                                      sendData.add(data);
+                                                    } else {
+                                                      sendData.add(data);
+                                                    };
+                                                  });
+
+
                                                 },
                                               ),
                                               IconButton(
                                                 icon: Icon(Icons.cancel,
-                                                    color: selectedIcons[index] ==
-                                                            'غياب'
+                                                    color: _filteredContacts[index].status ==
+                                                        '' || _filteredContacts[index].status ==
+                                                        'absent'
                                                         ? Colors.red
                                                         : Colors.grey),
                                                 onPressed: () {
+                                                  _filteredContacts[index].status !=
+                                                      '' ? AwesomeDialogWidget.show(
+                                                      context,
+                                                      'هل أنت متأكد من تغير حالة الطالب ' +_filteredContacts[index].first_name +" from " +_filteredContacts[index].status+" to "+"absent" ,
+                                                          () {
+                                                        _contacts[index].status != '' ?
+                                                        setState(() {
+                                                          selectedIcons[index] = 'غياب';
+                                                          _filteredContacts[index].status =
+                                                          '' ;
+                                                          Map<String, dynamic> data = {
+                                                            "attendance": widget.attId,
+                                                            "student":
+                                                            _filteredContacts[index]
+                                                                .student_id,
+                                                            "status": "absent"
+                                                          };
+                                                          bool containsData =
+                                                          sendData.any((item) =>
+                                                          item['student'] ==
+                                                              data['student']);
+                                                          if (containsData) {
+                                                            sendData.removeWhere((item) =>
+                                                            item['student'] ==
+                                                                data['student']);
+                                                            sendData.add(data);
+                                                          } else {
+                                                            sendData.add(data);
+                                                          }
+                                                        }) : setState(() {
+    selectedIcons[index] = 'غياب';
+    _filteredContacts[index].status =
+    '' ;
+                                                        });
+
+                                                          }) :
                                                   setState(() {
                                                     selectedIcons[index] = 'غياب';
+                                                    _filteredContacts[index].status =
+                                                    '' ;
                                                   });
-                                                  Map<String, dynamic> data = {
-                                                    "attendance": widget.attId,
-                                                    "student":
-                                                        _filteredContacts[index]
-                                                            .id,
-                                                    "status": "absent"
-                                                  };
-                                                  bool containsData =
-                                                      sendData.any((item) =>
-                                                          item['student'] ==
-                                                          data['student']);
-                                                  if (containsData) {
-                                                    sendData.removeWhere((item) =>
-                                                        item['student'] ==
-                                                        data['student']);
-                                                    sendData.add(data);
-                                                  } else {
-                                                    sendData.add(data);
-                                                  }
+
                                                 },
                                               ),
                                               IconButton(
                                                 icon: Icon(Icons.info,
-                                                    color: selectedIcons[index] ==
-                                                            'غياب مبرر'
+                                                    color: _filteredContacts[index].status ==
+                                                        'reason'
                                                         ? Colors.blue
                                                         : Colors.grey),
                                                 onPressed: () {
-                                                  setState(() {
-                                                    selectedIcons[index] =
-                                                        'غياب مبرر';
-                                                  });
-                                                  Map<String, dynamic> data = {
-                                                    "attendance": widget.attId,
-                                                    "student":
+                                                  _filteredContacts[index].status !=
+                                                      '' ?
+                                                  AwesomeDialogWidget.show(
+                                                    context,
+                                                    'هل أنت متأكد من تغير حالة الطالب ' +_filteredContacts[index].first_name +" from " +_filteredContacts[index].status+" to "+"reason " ,
+                                                        () {
+                                                      setState(() {
+                                                        selectedIcons[index] = 'غياب مبرر';
+                                                        _filteredContacts[index].status =
+                                                        'reason' ;
+                                                      });
+                                                      Map<String, dynamic> data = {
+                                                        "attendance": widget.attId,
+                                                        "student":
                                                         _filteredContacts[index]
-                                                            .id,
-                                                    "status": "reason"
-                                                  };
-                                                  bool containsData =
+                                                            .student_id,
+                                                        "status": "reason"
+                                                      };
+                                                      bool containsData =
                                                       sendData.any((item) =>
-                                                          item['student'] ==
+                                                      item['student'] ==
                                                           data['student']);
-                                                  if (containsData) {
-                                                    sendData.removeWhere((item) =>
+                                                      if (containsData) {
+                                                        sendData.removeWhere((item) =>
                                                         item['student'] ==
+                                                            data['student']);
+                                                        sendData.add(data);
+                                                      } else {
+                                                        sendData.add(data);
+                                                      }
+                                                    },
+                                                  ):  setState(() {
+                                                    selectedIcons[index] = 'غياب مبرر';
+                                                    _filteredContacts[index].status =
+                                                    'reason' ;
+                                                    Map<String, dynamic> data = {
+                                                      "attendance": widget.attId,
+                                                      "student":
+                                                      _filteredContacts[index]
+                                                          .student_id,
+                                                      "status": "reason"
+                                                    };
+                                                    bool containsData =
+                                                    sendData.any((item) =>
+                                                    item['student'] ==
                                                         data['student']);
-                                                    sendData.add(data);
-                                                  } else {
-                                                    sendData.add(data);
-                                                  }
+                                                    if (containsData) {
+                                                      sendData.removeWhere((item) =>
+                                                      item['student'] ==
+                                                          data['student']);
+                                                      sendData.add(data);
+                                                    } else {
+                                                      sendData.add(data);
+                                                    };
+                                                  });
+
                                                 },
                                               ),
                                               IconButton(
                                                 icon: Icon(Icons.access_time,
-                                                    color: selectedIcons[index] ==
-                                                            'متأخر'
+                                                    color: _filteredContacts[index].status ==
+                                                        'late'
                                                         ? Colors.orange
                                                         : Colors.grey),
                                                 onPressed: () {
-                                                  setState(() {
-                                                    selectedIcons[index] =
-                                                        'متأخر';
-                                                  });
-                                                  Map<String, dynamic> data = {
-                                                    "attendance": widget.attId,
-                                                    "student":
-                                                        _filteredContacts[index]
-                                                            .id,
-                                                    "status": "late"
-                                                  };
-                                                  bool containsData =
-                                                      sendData.any((item) =>
-                                                          item['student'] ==
-                                                          data['student']);
-                                                  if (containsData) {
-                                                    sendData.removeWhere((item) =>
+
+                                                  _filteredContacts[index].status !=
+                                                      '' ? AwesomeDialogWidget.show(
+                                                      context,
+                                                      'هل أنت متأكد من تغير حالة الطالب ' +_filteredContacts[index].first_name +" from " +_filteredContacts[index].status+" to "+"late" ,
+                                                          () {
+                                                        setState(() {
+                                                          selectedIcons[index] =
+                                                          'متأخر';
+                                                          _filteredContacts[index].status =
+                                                          'late' ;
+                                                        });
+                                                        Map<String, dynamic> data = {
+                                                          "attendance": widget.attId,
+                                                          "student":
+                                                          _filteredContacts[index]
+                                                              .student_id,
+                                                          "status": "late"
+                                                        };
+                                                        bool containsData =
+                                                        sendData.any((item) =>
                                                         item['student'] ==
+                                                            data['student']);
+                                                        if (containsData) {
+                                                          sendData.removeWhere((item) =>
+                                                          item['student'] ==
+                                                              data['student']);
+                                                          sendData.add(data);
+                                                        } else {
+                                                          sendData.add(data);
+                                                        }
+                                                      }) :  setState(() {
+                                                    _filteredContacts[index].status =
+                                                    'late' ;
+                                                    selectedIcons[index] =
+                                                    'متأخر';
+                                                    Map<String, dynamic> data = {
+                                                      "attendance": widget.attId,
+                                                      "student":
+                                                      _filteredContacts[index]
+                                                          .student_id,
+                                                      "status": "late"
+                                                    };
+                                                    bool containsData =
+                                                    sendData.any((item) =>
+                                                    item['student'] ==
                                                         data['student']);
-                                                    sendData.add(data);
-                                                  } else {
-                                                    sendData.add(data);
-                                                  }
+                                                    if (containsData) {
+                                                      sendData.removeWhere((item) =>
+                                                      item['student'] ==
+                                                          data['student']);
+                                                      sendData.add(data);
+                                                    } else {
+                                                      sendData.add(data);
+                                                    }
+                                                  });
+
+                                                  ;
+
+
+
+
+
+
                                                 },
                                               ),
                                             ],
@@ -392,6 +541,7 @@ class _DateDetailViewState extends State<DateDetailView> {
             BlocConsumer<AttendanceLogCubit, AttendanceLogState>(
                 listener: (context, state) {
           if (state is AttendanceLogFailure) {
+
             debugPrint("kkkSubjectFailure");
             Flushbar(
               duration: const Duration(seconds: 3),
@@ -402,7 +552,8 @@ class _DateDetailViewState extends State<DateDetailView> {
             ).show(context);
           }
           if (state is AttendanceLogStringSuccess) {
-            Get.offAll(HomeView());
+            // Get.offAll(HomeView());
+            Navigator.of(context).pop();
             Flushbar(
               duration: const Duration(seconds: 3),
               backgroundColor: Colors.white,
@@ -425,9 +576,17 @@ class _DateDetailViewState extends State<DateDetailView> {
                 if (sendData.isNotEmpty) {
                   BlocProvider.of<AttendanceLogCubit>(context)
                       .addStudentAttendanceLog(sendData);
+                }else {
+                  Flushbar(
+                    duration: const Duration(seconds: 3),
+                    backgroundColor: Colors.white,
+                    messageColor: Colors.black,
+                    messageSize: h * 0.02,
+                    message: "you do not add attendance log ",
+                  ).show(context);
                 }
               },
-              child: Icon(Icons.add),
+              child: Icon(Icons.download),
             );
           }
         }),

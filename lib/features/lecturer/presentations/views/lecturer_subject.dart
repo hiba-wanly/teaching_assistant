@@ -1,7 +1,9 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:teachers_marks/constants.dart';
+import 'package:teachers_marks/core/widgets/awesome_dialog_widget.dart';
 import 'package:teachers_marks/core/widgets/custom_appbar.dart';
 import 'package:teachers_marks/core/widgets/drop_down_widget.dart';
 import 'package:teachers_marks/core/widgets/loading_page.dart';
@@ -10,6 +12,7 @@ import 'package:teachers_marks/features/departments/data/models/lecturer_model.d
 import 'package:teachers_marks/features/departments/presentations/manager/lucturer_cubit/lecturer_cubit.dart';
 import 'package:teachers_marks/features/lecturer/presentations/manager/lecturer_cubit/lecturer_subject_cubit.dart';
 import 'package:teachers_marks/features/lecturer/presentations/manager/lecturer_cubit/lecturer_subject_state.dart';
+import 'package:teachers_marks/features/welcome/presentations/views/welcome_views.dart';
 
 class LecturerSubject extends StatefulWidget {
   Subject subject;
@@ -58,11 +61,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
         body: Padding(
           padding: EdgeInsets.only(
               top: h * 0.01, bottom: h * 0.01, left: w * 0.02, right: w * 0.02),
-          child: Card(
-            shadowColor: Colors.grey,
-            elevation: 6,
-            color: Color(0xffe8eaf6),
-            child: BlocConsumer<LecturerSubjectCubit, LecturerSubjectState>(
+          child: BlocConsumer<LecturerSubjectCubit, LecturerSubjectState>(
                 listener: (context, state) {
               if (state is LecturerSubjectSuccess) {
                 setState(() {
@@ -71,6 +70,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                 });
               }
               if (state is LecturerSubjectFailure) {
+
                 debugPrint("kkkSubjectFailure");
                 Flushbar(
                   duration: const Duration(seconds: 3),
@@ -93,6 +93,18 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                           right: w * 0.02),
                       child: Column(
                         children: [
+
+
+                          Text(
+                            "المحاضرون المشاركين*",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: Almarai,
+                            ),
+                          ),
+                          SizedBox(
+                            height: h * 0.01,
+                          ),
                           SizedBox(
                             height: h * 0.5,
                             width: double.infinity,
@@ -105,6 +117,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                     left: w * 0.02,
                                     right: w * 0.02),
                                 child: ListView.builder(
+                                  scrollDirection : Axis.vertical,
                                   itemCount: _lecturerSubject.length,
                                   itemBuilder: (context, index) {
                                     return Column(
@@ -128,6 +141,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                             }
                                             if (state
                                                 is LecturerSubjectFailure) {
+
                                               Flushbar(
                                                 duration:
                                                     const Duration(seconds: 3),
@@ -154,18 +168,26 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                             } else {
                                               return IconButton(
                                                 onPressed: () {
-                                                  setState(() {
-                                                    loadingIndex =
-                                                        index; // Track the pressed button
-                                                  });
-                                                  BlocProvider.of<
+
+                                                  AwesomeDialogWidget.show(
+                                                    context,
+                                                    'هل أنت متأكد من حذف المحاضر',
+                                                        () {
+                                                          setState(() {
+                                                            loadingIndex =
+                                                                index; // Track the pressed button
+                                                          });
+                                                          BlocProvider.of<
                                                               LecturerSubjectCubit>(
-                                                          context)
-                                                      .deleteLecturer(
-                                                          widget.subject.id,
-                                                          _lecturerSubject[
-                                                                  index]
-                                                              .id);
+                                                              context)
+                                                              .deleteLecturer(
+                                                              widget.subject.id,
+                                                              _lecturerSubject[
+                                                              index]
+                                                                  .id);
+                                                    },
+                                                  );
+
                                                 },
                                                 icon: Icon(
                                                   Icons.delete,
@@ -183,8 +205,9 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                               ),
                             ),
                           ),
+
                           SizedBox(
-                            height: h * 0.01,
+                            height: h * 0.02,
                           ),
                           Text(
                             "المحاضرون المتاحون*",
@@ -201,13 +224,13 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                 ? []
                                 : _lecturer.map<DropdownMenuItem<String>>(
                                     (Lecturer lec) {
-                                    return DropdownMenuItem<String>(
-                                        value: lec.name,
-                                        child: Text(lec.name,
-                                            style: TextStyle(
-                                              fontFamily: Almarai,
-                                            )));
-                                  }).toList(),
+                                  return DropdownMenuItem<String>(
+                                      value: lec.name,
+                                      child: Text(lec.name,
+                                          style: TextStyle(
+                                            fontFamily: Almarai,
+                                          )));
+                                }).toList(),
                             w: w * 0.5,
                             text: 'المحاضر',
                             selected: selectedLecturer,
@@ -219,7 +242,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                                     .id;
                               });
                               if (_lecturerSubject.any((lecturer) =>
-                                  lecturer.id == selectedLecturerId)) {
+                              lecturer.id == selectedLecturerId)) {
                               } else {
                                 BlocProvider.of<LecturerSubjectCubit>(context)
                                     .addLecturer({
@@ -231,6 +254,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
                               print(selectedLecturerId);
                             },
                           ),
+
                         ],
                       ),
                     ),
@@ -239,7 +263,7 @@ class _LecturerSubjectState extends State<LecturerSubject> {
               } else
                 return LoadingPage();
             }),
-          ),
+
         ),
       ),
     );

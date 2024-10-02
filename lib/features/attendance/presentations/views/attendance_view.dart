@@ -15,6 +15,8 @@ import 'package:teachers_marks/features/attendance/presentations/manager/attenda
 import 'package:teachers_marks/features/attendance/presentations/views/practical_view.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/theoretical_view.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:teachers_marks/features/attendance/presentations/views/widget/awsom.dart';
+import 'package:teachers_marks/features/welcome/presentations/views/welcome_views.dart';
 
 class AttendanceView extends StatefulWidget {
   Subject subject;
@@ -29,7 +31,7 @@ class _AttendanceViewState extends State<AttendanceView> {
   DateTime? _selectedDate;
   double h = 1;
   double w = 1;
-  bool isPractical = true;
+  bool isPractical = false;
   List<DateTime> practicalDates = [];
   List<DateTime> theoreticalDates = [];
   String formattedDate = '';
@@ -66,8 +68,8 @@ class _AttendanceViewState extends State<AttendanceView> {
       setState(() {
         _selectedDate = pickedDate;
         day = intl.DateFormat('EEEE').format(pickedDate);
-        date = intl.DateFormat('M/d/y').format(pickedDate);
-        formattedDate = intl.DateFormat('EEE, M/d/y').format(pickedDate);
+        date = intl.DateFormat('y/M/d').format(pickedDate);
+        formattedDate = intl.DateFormat('EEE, y/M/d').format(pickedDate);
         if (isPractical) {
           practicalDates.add(pickedDate);
         } else {
@@ -77,6 +79,15 @@ class _AttendanceViewState extends State<AttendanceView> {
       });
     });
   }
+  //   if (pickedDate != null) {
+  //     setState(() {
+  //       day = intl.DateFormat('EEEE').format(pickedDate!);
+  //       date = intl.DateFormat('y/M/d').format(pickedDate!);
+  //       formattedDate = intl.DateFormat('EEE, y/M/d').format(pickedDate!);
+  //       print(formattedDate);
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
@@ -115,6 +126,34 @@ class _AttendanceViewState extends State<AttendanceView> {
                 children: <Widget>[
                   Expanded(
                     child: Container(
+                      decoration: !isPractical
+                          ? BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                stops: [0.1, 0.6],
+                                tileMode: TileMode.repeated,
+                                colors: [kButtonColorBlue1, kButtonColorBlue2],
+                              ),
+                            )
+                          : null,
+                      child: TextButton(
+                        onPressed: () {
+                          if (isPractical) togglePart();
+                        },
+                        style: TextButton.styleFrom(),
+                        child: Text(
+                          'نظري',
+                          style: TextStyle(
+                            fontSize: w * 0.04,
+                            fontFamily: Almarai,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
                       decoration: isPractical
                           ? BoxDecoration(
                               gradient: LinearGradient(
@@ -142,34 +181,6 @@ class _AttendanceViewState extends State<AttendanceView> {
                     ),
                   ),
                   // SizedBox(height: h*0.06,),
-                  Expanded(
-                    child: Container(
-                      decoration: !isPractical
-                          ? BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                stops: [0.1, 0.6],
-                                tileMode: TileMode.repeated,
-                                colors: [kButtonColorBlue1, kButtonColorBlue2],
-                              ),
-                            )
-                          : null,
-                      child: TextButton(
-                        onPressed: () {
-                          if (isPractical) togglePart();
-                        },
-                        style: TextButton.styleFrom(),
-                        child: Text(
-                          'نظري',
-                          style: TextStyle(
-                            fontSize: w * 0.04,
-                            fontFamily: Almarai,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -178,6 +189,11 @@ class _AttendanceViewState extends State<AttendanceView> {
             ),
             BlocConsumer<AttendanceCubit, AttendanceState>(
                 listener: (context, state) {
+              if (state is AttendanceSuccess) {
+                setState(() {
+                  formattedDate = '';
+                });
+              }
               if (state is AttendanceFailure) {
                 debugPrint("kkkSubjectFailure");
                 Flushbar(
@@ -203,7 +219,7 @@ class _AttendanceViewState extends State<AttendanceView> {
               }
             }),
             SizedBox(
-              height: h * 0.06,
+              height: h * 0.02,
             )
           ],
         ),
@@ -215,58 +231,81 @@ class _AttendanceViewState extends State<AttendanceView> {
               borderSide: const BorderSide(color: kButtonColorBlue1, width: 2),
               dialogType: DialogType.noHeader,
               showCloseIcon: true,
-              body: Column(
-                children: [
-                  SizedBox(height: h * 0.01),
-                  InkWell(
-                    onTap: () {
-                      _presentDatePicker();
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.add),
-                        Spacer(),
-                        Text('اختر اليوم',
-                            style: TextStyle(
-                              fontFamily: Almarai,
-                            )),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: h * 0.01),
-                  DropDownWidget(
-                    list:
-                        _optionType.map<DropdownMenuItem<String>>((String att) {
-                      return DropdownMenuItem<String>(
-                          value: att,
-                          child: Text(att,
-                              style: TextStyle(
-                                fontFamily: Almarai,
-                              )));
-                    }).toList(),
-                    w: w * 0.05,
-                    text: 'النوع',
-                    selected: selecttype,
-                    onChanged: (value) {
-                      setState(() {
-                        selecttype = value;
-                      });
-                      print(selecttype);
-                    },
-                  ),
-                  SizedBox(height: h * 0.01),
-                ],
+              body: DateSelectionDialog(
+                initialDate: formattedDate,
+                onDateSelected: (newDate) {
+                  setState(() {
+                    formattedDate = newDate; // Update the main formattedDate
+                  });
+                },
+                onDateSelectedDay: (newDate) {
+                  setState(() {
+                    day = newDate; // Update the main formattedDate
+                  });
+                },
+                onDateSelectedDate: (newDate) {
+                  setState(() {
+                    date = newDate; // Update the main formattedDate
+                  });
+                },
               ),
+              // Padding(
+              //   padding:EdgeInsets.all(MediaQuery.of(context).size.width * 0.035),                child: Column(
+              //     children: [
+              //       SizedBox(height: h * 0.01),
+              //       InkWell(
+              //         onTap: () {
+              //
+              //            _presentDatePicker();
+              //
+              //
+              //         },
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //           children: [
+              //             Icon(Icons.add),
+              //             Spacer(),
+              //             Text(formattedDate.isNotEmpty ? formattedDate : 'اختر اليوم',
+              //                 style: TextStyle(
+              //                   fontFamily: Almarai,
+              //                 )),
+              //           ],
+              //         ),
+              //       ),
+              //       // SizedBox(height: h * 0.02),
+              //       // DropDownWidget(
+              //       //   list:
+              //       //       _optionType.map<DropdownMenuItem<String>>((String att) {
+              //       //     return DropdownMenuItem<String>(
+              //       //         value: att,
+              //       //         child: Text(att,
+              //       //             style: TextStyle(
+              //       //               fontFamily: Almarai,
+              //       //             )));
+              //       //   }).toList(),
+              //       //   w: w * 0.05,
+              //       //   text: 'النوع',
+              //       //   selected: selecttype,
+              //       //   onChanged: (value) {
+              //       //     setState(() {
+              //       //       selecttype = value;
+              //       //     });
+              //       //     print(selecttype);
+              //       //   },
+              //       // ),
+              //       SizedBox(height: h * 0.01),
+              //     ],
+              //   ),
+              // ),
               btnCancelOnPress: () {},
               btnOkOnPress: () {
                 debugPrint("update0001");
-                if (day != null && date != null && selecttype != null) {
+                if (day != null && date != null) {
                   BlocProvider.of<AttendanceCubit>(context).addAttendance({
                     "subject": widget.subject.id,
                     "date": date,
                     "day": day,
-                    "type": selecttype,
+                    "type": isPractical ? 'lab' : 'theory', //selecttype,
                   });
                 }
               },

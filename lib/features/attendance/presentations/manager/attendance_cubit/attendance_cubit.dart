@@ -45,7 +45,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   }
 
   Future<void> deleteAttendance( int att_id) async {
-    emit(AttendanceLoading());
+    emit(AttendanceDeleteLoading());
     var result = await fetchAttendanceUseCase.callDeleteAttendance(att_id);
 
     result.fold((failure) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachers_marks/features/attendance_log/data/models/attendance_student_log_model.dart';
 import 'package:teachers_marks/features/departments/data/models/student_model.dart';
 
 @immutable
@@ -17,7 +18,7 @@ class StudentFailure extends StudentState {
 
 
 class StudentSuccess extends StudentState {
-  final List<Student> student;
+  final List<AttendanceStudentLog> student;
   StudentSuccess(this.student);
 }
 // class StudentFiltered extends StudentState {

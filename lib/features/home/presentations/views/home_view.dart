@@ -34,6 +34,8 @@ class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> _sKey = GlobalKey();
   late List<Subject> subjects;
 
+  List<AcademicSemester> AcademicYear = academicYearCon;
+
   List<Departments> _section = [];
   late String? dropdownSectionValue;
 
@@ -111,6 +113,7 @@ class _HomeViewState extends State<HomeView> {
                     Get.offAll(WelcomeView());
                   }
                   if (state is LoginFailure) {
+
                     Flushbar(
                       duration: const Duration(seconds: 3),
                       backgroundColor: Colors.white,
@@ -151,7 +154,7 @@ class _HomeViewState extends State<HomeView> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Get.to(LectuerDetails(subject: subjects[index]));
+                      Get.to(SubjectContentDetails(subject: subjects[index]));
                       // debugPrint("clicked1");
                     },
                     child: Container(
@@ -203,61 +206,61 @@ class _HomeViewState extends State<HomeView> {
                                     },
                                     child: Icon(
                                       Icons.edit_outlined,
-                                      color: Colors.grey,
+                                      color: kButtonColorBlue2,
                                     ),
                                   ),
                                   SizedBox(width: w * 0.05),
-                                  BlocConsumer<SubjectCubit, SubjectState>(
-                                      listener: (context, state) {
-                                    if (state is SubjectSuccess) {
-                                      BlocProvider.of<HomeCubit>(context)
-                                          .updateSubject(state.subject);
-                                      setState(() {
-                                        subjects =
-                                            BlocProvider.of<HomeCubit>(context)
-                                                .subject;
-                                      });
-                                    }
-                                    if (state is SubjectFailure) {
-                                      Flushbar(
-                                        duration: const Duration(seconds: 3),
-                                        backgroundColor: Colors.white,
-                                        messageColor: Colors.black,
-                                        messageSize: h * 0.02,
-                                        message: state.errMessage,
-                                      ).show(context);
-                                    }
-                                  }, builder: (context, state) {
-                                    if (state is SubjectLoading) {
-                                      return InkWell(
-                                        onTap: () {},
-                                        child: loadingIndex == index
-                                            ? CircularProgressIndicator(
-                                                color: Colors.blue)
-                                            : Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                              ),
-                                      );
-                                    } else {
-                                      return InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            loadingIndex =
-                                                index; // Track the pressed button
-                                          });
-                                          BlocProvider.of<SubjectCubit>(context)
-                                              .deleteSubject(
-                                                  subjects[index].id);
-                                          // debugPrint("clicked");
-                                        },
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: Colors.red,
-                                        ),
-                                      );
-                                    }
-                                  }),
+                                  // BlocConsumer<SubjectCubit, SubjectState>(
+                                  //     listener: (context, state) {
+                                  //   if (state is SubjectSuccess) {
+                                  //     BlocProvider.of<HomeCubit>(context)
+                                  //         .updateSubject(state.subject);
+                                  //     setState(() {
+                                  //       subjects =
+                                  //           BlocProvider.of<HomeCubit>(context)
+                                  //               .subject;
+                                  //     });
+                                  //   }
+                                  //   if (state is SubjectFailure) {
+                                  //     Flushbar(
+                                  //       duration: const Duration(seconds: 3),
+                                  //       backgroundColor: Colors.white,
+                                  //       messageColor: Colors.black,
+                                  //       messageSize: h * 0.02,
+                                  //       message: state.errMessage,
+                                  //     ).show(context);
+                                  //   }
+                                  // }, builder: (context, state) {
+                                  //   if (state is SubjectLoading) {
+                                  //     return InkWell(
+                                  //       onTap: () {},
+                                  //       child: loadingIndex == index
+                                  //           ? CircularProgressIndicator(
+                                  //               color: Colors.blue)
+                                  //           : Icon(
+                                  //               Icons.delete,
+                                  //               color: Colors.red,
+                                  //             ),
+                                  //     );
+                                  //   } else {
+                                  //     return InkWell(
+                                  //       onTap: () {
+                                  //         setState(() {
+                                  //           loadingIndex =
+                                  //               index; // Track the pressed button
+                                  //         });
+                                  //         BlocProvider.of<SubjectCubit>(context)
+                                  //             .deleteSubject(
+                                  //                 subjects[index].id);
+                                  //         // debugPrint("clicked");
+                                  //       },
+                                  //       child: Icon(
+                                  //         Icons.delete,
+                                  //         color: Colors.red,
+                                  //       ),
+                                  //     );
+                                  //   }
+                                  // }),
                                 ],
                               )
                             ],
@@ -280,7 +283,14 @@ class _HomeViewState extends State<HomeView> {
                                     style: TextStyle(
                                         fontFamily: Almarai,
                                         fontSize: w * 0.032)),
-                                Text(subjects[index]?.academic_year ?? "",
+                                Text(
+                                    AcademicYear
+                                        .firstWhere(
+                                            (dept) => dept.id == subjects[index]?.academic_year,
+                                        orElse: () => AcademicYear[0]
+                                    )
+                                        .acadsemester,
+                                    // subjects[index]?.academic_year ?? "",
                                     style: TextStyle(
                                         fontFamily: Almarai,
                                         fontSize: w * 0.032)),

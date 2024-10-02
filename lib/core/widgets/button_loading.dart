@@ -29,7 +29,7 @@ class _ButtonLoadingState extends State<ButtonLoading> {
           stops: [0.1, 0.6],
           tileMode: TileMode.repeated,
         ),
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.white,
           width: 2.0,

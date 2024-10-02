@@ -8,6 +8,8 @@ class AttendanceInitial extends AttendanceState {}
 
 class AttendanceLoading extends AttendanceState {}
 
+class AttendanceDeleteLoading extends AttendanceState {}
+
 class AttendanceFailure extends AttendanceState {
   final String errMessage;
   AttendanceFailure(this.errMessage);

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:teachers_marks/core/errors/failure.dart';
 import 'package:teachers_marks/features/attendance_log/data/models/attendance_log_model.dart';
+import 'package:teachers_marks/features/attendance_log/data/models/attendance_student_log_model.dart';
 import 'package:teachers_marks/features/attendance_log/domain/repos/attendance_log_repo.dart';
 import 'use_case.dart';
 
@@ -24,6 +25,12 @@ class FetchAttendanceLogUseCase extends UseCase<List<AttendanceLog>, NoParam> {
     throw UnimplementedError();
   }
 
+  @override
+  Future<Either<Failure, List<AttendanceLog>>> callGetAttendanceStudentLog(int stu_id, int att_id, [NoParam? param]) {
+    // TODO: implement callAttendanceStudentLog
+    throw UnimplementedError();
+  }
+
 
 
 }
@@ -41,5 +48,34 @@ Future<Either<Failure,String>> callAddAttendanceLog(List<Map<String,dynamic>> da
   Future<Either<Failure, String>> callGetStudentAttendanceLog(int att_id, [NoParam? param]) {
     // TODO: implement callGetStudentAttendanceLog
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, String>> callGetAttendanceStudentLog(int stu_id, int att_id, [NoParam? param]) {
+    // TODO: implement callAttendanceStudentLog
+    throw UnimplementedError();
+  }
+}
+
+
+
+class FetchAttendanceStudentLogUseCase extends UseCase<List<AttendanceStudentLog>, NoParam>{
+  final AttendanceLogRepo attendanceLogRepo;
+  FetchAttendanceStudentLogUseCase(this.attendanceLogRepo);
+  @override
+  Future<Either<Failure,List<AttendanceStudentLog>>> callAddAttendanceLog(List<Map<String,dynamic>> data ,  [NoParam? param]) {
+    // TODO: implement callAttendanceStudentLog
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<AttendanceStudentLog>>> callGetStudentAttendanceLog(int att_id, [NoParam? param]) {
+    // TODO: implement callGetStudentAttendanceLog
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<AttendanceStudentLog>>> callGetAttendanceStudentLog(int stu_id, int att_id, [NoParam? param]) async {
+    return await attendanceLogRepo.fetchGetAttendanceStudentLog(stu_id, att_id);
   }
 }

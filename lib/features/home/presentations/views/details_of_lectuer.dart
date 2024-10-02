@@ -3,17 +3,18 @@ import 'package:teachers_marks/constants.dart';
 import 'package:teachers_marks/core/widgets/custom_appbar.dart';
 import 'package:teachers_marks/features/add_subject/data/models/subject_model.dart';
 import 'package:teachers_marks/features/attendance/presentations/views/attendance_view.dart';
+import 'package:teachers_marks/features/files/presentations/views/files_view.dart';
 import 'package:teachers_marks/features/lecturer/presentations/views/lecturer_subject.dart';
 
-class LectuerDetails extends StatefulWidget {
+class SubjectContentDetails extends StatefulWidget {
   Subject subject;
-  LectuerDetails({super.key, required this.subject});
+  SubjectContentDetails({super.key, required this.subject});
 
   @override
-  State<LectuerDetails> createState() => _LectuerDetailsState();
+  State<SubjectContentDetails> createState() => _SubjectContentDetailsState();
 }
 
-class _LectuerDetailsState extends State<LectuerDetails> {
+class _SubjectContentDetailsState extends State<SubjectContentDetails> {
   double h = 1;
   double w = 1;
   late final List<Map<String, dynamic>> items;
@@ -27,6 +28,7 @@ class _LectuerDetailsState extends State<LectuerDetails> {
         'screen': LecturerSubject(subject: widget.subject)
       },
       {'name': 'الحضور', 'screen': AttendanceView(subject: widget.subject)},
+      {'name': 'الملفات', 'screen': FilesView(subject: widget.subject)},
     ];
   }
 

@@ -38,7 +38,7 @@ class SubjectCubit extends Cubit<SubjectState> {
   }
 
   Future<void> deleteSubject(int id ) async {
-    emit(SubjectLoading());
+    emit(SubjectDeleteLoading());
     var result = await fetchSubjectUseCase.callDeleteSubject(id);
 
     result.fold((failure) {

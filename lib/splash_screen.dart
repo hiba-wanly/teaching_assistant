@@ -12,6 +12,7 @@ import 'package:teachers_marks/features/departments/presentations/manager/luctur
 import 'package:teachers_marks/features/home/presentations/manager/home_cubit/home_cubit.dart';
 import 'package:teachers_marks/features/home/presentations/manager/home_cubit/home_state.dart';
 import 'package:teachers_marks/features/home/presentations/views/home_view.dart';
+import 'package:teachers_marks/features/welcome/presentations/views/welcome_views.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({
@@ -61,6 +62,7 @@ class _LoadGeneralInformationState extends State<LoadGeneralInformation> {
               .updateGeneralInformation(state.General_nformation);
           return LoadDepartments();
         } else if (state is GeneralInformationFailure) {
+
           return LoadGeneralInformation();
         } else {
           return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
@@ -97,6 +99,7 @@ class _LoadDepartmentsState extends State<LoadDepartments> {
               .updateDepartment(state.departments);
           return LoadLecturer();
         } else if (state is DepartmentFailure) {
+
           return LoadDepartments();
         } else {
           return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
@@ -133,6 +136,7 @@ class _LoadLecturerState extends State<LoadLecturer> {
               .updateLecturer(state.lecturer);
           return LoadSubject();
         } else if (state is LecturerFailure) {
+
           return LoadLecturer();
         } else {
           return Scaffold(backgroundColor: Colors.white, body: LoadingPage());
@@ -168,6 +172,7 @@ class _LoadSubjectState extends State<LoadSubject> {
           BlocProvider.of<HomeCubit>(context).updateSubject(state.subject);
           return HomeView();
         } else if (state is HomeFailure) {
+
           return LoadSubject();
         } else {
           return Scaffold(backgroundColor: Colors.white, body: LoadingPage());

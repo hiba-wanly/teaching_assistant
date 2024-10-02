@@ -33,6 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
     result.fold((failure) {
       emit(LoginFailure(failure.message));
     }, (login) {
+      updateData();
       emit(LoginSuccess(login));
     });
   }
@@ -58,13 +59,37 @@ class LoginCubit extends Cubit<LoginState> {
     result.fold((failure) {
       emit(LoginFailure(failure.message));
     }, (signup) {
+      updateData();
       emit(LoginSuccess(signup));
     });
   }
 
+  updateData() async {
+  String? user_idS =
+  (await SharedPreferences.getInstance()).getString("user_id");
+  String? lecturer_idS =
+  (await SharedPreferences.getInstance()).getString("lecturer_id");
+  String? userNameS =
+  (await SharedPreferences.getInstance()).getString("userName");
+  String? nameS = (await SharedPreferences.getInstance()).getString("name");
+  String? emailS = (await SharedPreferences.getInstance()).getString("email");
+
+   user_id= user_idS!;
+ lecturer_id= lecturer_idS!;
+   userName = userNameS!;
+   name = nameS!;
+   email = emailS!;
+}
   Future<void> removeToken() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("token"); // Removes the token
+    await prefs.remove("token");
+    await prefs.remove("user_id");
+    await prefs.remove("lecturer_id");
+    await prefs.remove("userName");
+    await prefs.remove("name");
+    await prefs.remove("email");
+
+    // Removes the token
   }
 
 }

@@ -9,6 +9,8 @@ class SubjectInitial extends SubjectState {}
 
 class SubjectLoading extends SubjectState {}
 
+class SubjectDeleteLoading extends SubjectState {}
+
 class SubjectFailure extends SubjectState {
   final String errMessage;
   SubjectFailure(this.errMessage);

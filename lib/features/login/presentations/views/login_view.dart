@@ -62,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
                   CustomTextFormAuth(
                     hintText: 'أدخل اسم المستخدم',
                     labeltext: 'اسم المستخدم',
-                    iconData: Icons.email_outlined,
+                    iconData: Icons.person,
                     mycontroller: usernameController,
                     textInputType: TextInputType.emailAddress,
                     pass: false,

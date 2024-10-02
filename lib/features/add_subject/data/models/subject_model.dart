@@ -14,6 +14,8 @@ class Subject {
   dynamic interviews_mark;
   dynamic homework_mark;
   dynamic labs_mark;
+  dynamic total_mark;
+  dynamic practical_mark;
 
   Subject({
     this.id,
@@ -27,6 +29,8 @@ class Subject {
     this.interviews_mark,
     this.homework_mark,
     this.labs_mark,
+    this.total_mark,
+    this.practical_mark
   });
 
 
@@ -40,6 +44,8 @@ class Subject {
       "interviews_mark": interviews_mark,
       "homework_mark": homework_mark,
       "labs_mark": labs_mark,
+      "total_mark":total_mark,
+      "practical_mark":practical_mark,
     };
   }
 
@@ -57,7 +63,7 @@ class Subject {
     interviews_mark = json['interviews_mark'];
     homework_mark = json['homework_mark'];
     labs_mark = json['labs_mark'];
-
-
+    practical_mark=json['practical_mark'];
+    total_mark=json['total_mark'];
   }
 }

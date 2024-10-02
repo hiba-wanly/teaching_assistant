@@ -23,6 +23,7 @@ import 'package:teachers_marks/features/attendance_log/data/data_source/attendan
 import 'package:teachers_marks/features/attendance_log/data/repos/attendance_log_repo_impl.dart';
 import 'package:teachers_marks/features/attendance_log/domain/use_cases/fetch_attendance_log_use_case.dart';
 import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_cubit/attendance_log_cubit.dart';
+import 'package:teachers_marks/features/attendance_log/presentations/manager/attendance_student_log_cubit/attendance_student_log_cubit.dart';
 import 'package:teachers_marks/features/departments/data/data_source/department_remote_data_source.dart';
 import 'package:teachers_marks/features/departments/data/models/department_model.dart';
 import 'package:teachers_marks/features/departments/data/models/general_information.dart';
@@ -33,6 +34,10 @@ import 'package:teachers_marks/features/departments/presentations/manager/depart
 import 'package:teachers_marks/features/departments/presentations/manager/general_information_cubit/general_information_cubit.dart';
 import 'package:teachers_marks/features/departments/presentations/manager/lucturer_cubit/lecturer_cubit.dart';
 import 'package:teachers_marks/features/departments/presentations/manager/student_cubit/student_cubit.dart';
+import 'package:teachers_marks/features/files/data/data_source/files_remote_data_source.dart';
+import 'package:teachers_marks/features/files/data/repos/file_repo_impl.dart';
+import 'package:teachers_marks/features/files/domain/use_cases/fetch_files_use_case.dart';
+import 'package:teachers_marks/features/files/presentations/manager/files_cubit/files_cubit.dart';
 import 'package:teachers_marks/features/home/data/data_source/home_remote_data_source.dart';
 import 'package:teachers_marks/features/home/data/repos/home_repo_impl.dart';
 import 'package:teachers_marks/features/home/domain/use_cases/fetch_home_use_case.dart';
@@ -236,6 +241,28 @@ class MyApp extends StatelessWidget {
                   getIt.get<ApiService>(),
                 ),
               ),
+            ),
+          );
+        }),
+        BlocProvider(create: (context) {
+          return AttendanceStudentLogCubit(
+            FetchAttendanceStudentLogUseCase(
+              AttendanceLogRepoImpl(
+                attendanceLogRemoteDataSource: AttendanceLogRemoteDataSourceImpl(
+                  getIt.get<ApiService>(),
+                ),
+              ),
+            ),
+          );
+        }),
+        BlocProvider(create: (context) {
+          return FilesCubit(
+            FetchFilesUseCase(
+              FilesRepoImpl(
+                filesRemoteDataSource: FilesRemoteDataSourceImpl(
+                    getIt.get<ApiService>(),
+              ),
+            ),
             ),
           );
         }),

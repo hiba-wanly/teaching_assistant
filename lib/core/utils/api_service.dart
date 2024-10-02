@@ -58,10 +58,10 @@ class ApiService {
   Future<Map<String, dynamic>> update({required String endPoint, required Map<String,dynamic> data}) async {
     String? token =
     (await SharedPreferences.getInstance()).getString("token");
-
+    FormData data2 = FormData.fromMap(data);
     var response = await _dio.put(
       '$baseUrl$endPoint',
-      data: data,
+      data: data2,
       options: Options(headers: {
         'Accept': 'application/json',
         'Authorization': 'Token ' + token!

@@ -31,7 +31,7 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
           stops: [0.1, 0.6],
           tileMode: TileMode.repeated,
         ),
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.white,
           width: 2.0,
@@ -39,12 +39,13 @@ class _CustomButtonAuthState extends State<CustomButtonAuth> {
       ),
       child: MaterialButton(
         onPressed: widget.onPressed,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding:  EdgeInsets.symmetric(vertical: h*0.02),
         // color: const Color(0x24F10808),
         textColor: Colors.white,
         child: Text(widget.text ,
           style: TextStyle(
+            color: Colors.black,
               fontFamily: Almarai),
           ),
       ),
